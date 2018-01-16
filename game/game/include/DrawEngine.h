@@ -23,12 +23,12 @@ namespace axe
 	class DrawEngine
 	{
 	public:
-		DrawEngine(void);
-		~DrawEngine(void);
+		DrawEngine();
+		~DrawEngine();
 
 		int init(Window *window);
 		void handleEvents(const ALLEGRO_EVENT &ev);
-		void cleanUp(void);
+		void cleanUp();
 
 		int getWindowWidth() { return m_window->getScreenWidth(); }
 		int getWindowHeight() { return m_window->getScreenHeight(); }
@@ -45,7 +45,7 @@ namespace axe
 		void drawScaledBitmap(ResourceHandle<Bitmap> bmp, int x, int y, float x_scale, float y_scale, int flags);
 		void drawScaledBitmap(ResourceHandle<Bitmap> bmp, int x, int y, int width, int height, int flags);
 
-		int formatStringByWidth(const ResourceHandle<Font> &font, int max_string_width, std::string &str); // returns nubmber of rows of text after formatting
+		int formatStringByWidth(const ResourceHandle<Font> &font, int max_string_width, std::string &str); // returns number of rows of text after formatting
 
 		void flipAndClear(ALLEGRO_COLOR cl);
 

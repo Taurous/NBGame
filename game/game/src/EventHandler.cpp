@@ -1,4 +1,4 @@
-#include "axeEngine\Eventhandler.h"
+#include "Eventhandler.h"
 
 using namespace axe;
 
@@ -7,9 +7,9 @@ EventHandler::EventHandler() : focus(true), event_queue(nullptr), timer(nullptr)
 
 }
 
-void EventHandler::init(float fps)
+int EventHandler::init(int engine_speed)
 {
-	timer = al_create_timer(1.0f / fps);
+	timer = al_create_timer(1.0f / float(engine_speed));
 
 	event_queue = al_create_event_queue();
 
@@ -21,6 +21,8 @@ void EventHandler::init(float fps)
 	al_register_event_source(event_queue, &user_event_source);
 
 	axe::log(LOGGER_MESSAGE, "EventHandler Initialized\n");
+
+	return 0; // Need to error check this function
 }
 
 EventHandler::~EventHandler(void)

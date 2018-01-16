@@ -1,9 +1,9 @@
 #pragma once
 
-#include "axeEngine\DrawEngine.h"
-#include "axeEngine\EventHandler.h"
-#include "axeEngine\InputHandler.h"
-#include <inttypes.h>
+#include "DrawEngine.h"
+#include "EventHandler.h"
+#include "InputHandler.h"
+//#include <inttypes.h>
 
 namespace axe
 {

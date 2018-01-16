@@ -1,16 +1,10 @@
-#include "axeEngine\DrawEngine.h"
+#include "DrawEngine.h"
 
 using namespace axe;
 
 DrawEngine::DrawEngine()
 {
-	al_init_image_addon();
-	al_init_primitives_addon();
-	al_init_font_addon();
-	al_init_ttf_addon();
 
-	bitmaps.setPathToResources("resources/textures/");
-	fonts.setPathToResources("resources/fonts/");
 }
 
 DrawEngine::~DrawEngine()
@@ -21,6 +15,14 @@ DrawEngine::~DrawEngine()
 
 int DrawEngine::init(Window *window)
 {
+	al_init_image_addon();
+	al_init_primitives_addon();
+	al_init_font_addon();
+	al_init_ttf_addon();
+
+	bitmaps.setPathToResources("resources/textures/");
+	fonts.setPathToResources("resources/fonts/");
+
 	m_window = window;
 
 	t_cursorFlash.start();

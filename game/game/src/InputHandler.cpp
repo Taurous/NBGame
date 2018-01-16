@@ -1,4 +1,4 @@
-#include "axeEngine\InputHandler.h"
+#include "InputHandler.h"
 
 using namespace axe;
 
@@ -47,9 +47,11 @@ InputHandler::InputHandler()
 	, max_input_length(0)
 	, backspace_wait(BACKSPACE_WAIT_TIME)
 	, initialized(false)
-{ }
+{
+	init();
+}
 
-void InputHandler::init()
+int InputHandler::init()
 {
 	if (!initialized)
 	{
@@ -68,6 +70,8 @@ void InputHandler::init()
 	{
 		axe::log(LOGGER_WARNING, "InputHandler already initialized! Cannot create more than one InputHandler!\n");
 	}
+
+	return 0;
 }
 
 InputHandler::~InputHandler()
@@ -126,14 +130,14 @@ void InputHandler::getInput(const ALLEGRO_EVENT &ev)
 
 		if (input_string != nullptr)
 		{
-			bool shift = m_mod_flags & MOD_SHIFT; // get if shift pressed
+			bool shift = (m_mod_flags & MOD_SHIFT) && INPUT_ALLOW_CAPS; // get if shift pressed
 			unsigned char c = ev.keyboard.keycode;
 
 			if (c <= ALLEGRO_KEY_Z)
 			{
 				c = letters[c];
 
-				if (shift && INPUT_ALLOW_CAPS & m_input_flags) c = toupper(c);
+				if (char(shift) & m_input_flags) c = toupper(c);
 
 				stringPushBack(c);
 			}

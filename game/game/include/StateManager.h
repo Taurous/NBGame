@@ -1,12 +1,12 @@
 #pragma once
 
-#include "axeEngine\Util\Logger.h"
+#include "Util\Logger.h"
 
-#include "axeEngine\DrawEngine.h"
-#include "axeEngine\InputHandler.h"
-#include "axeEngine\EventHandler.h"
+#include "DrawEngine.h"
+#include "InputHandler.h"
+#include "EventHandler.h"
 
-#include "axeEngine\AbstractState.h"
+#include "AbstractState.h"
 
 #include <inttypes.h>
 #include <vector>
@@ -29,6 +29,9 @@ namespace axe
 	class StateManager
 	{
 	public:
+		StateManager();
+		~StateManager() { cleanUp(); }
+
 		void init();
 		void cleanUp();
 

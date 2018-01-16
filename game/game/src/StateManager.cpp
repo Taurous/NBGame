@@ -1,13 +1,8 @@
-#include "axeEngine\StateManager.h"
+#include "StateManager.h"
 
 using namespace axe;
 
-void StateManager::init()
-{
-	v_draw_all = false;
-	v_running = true;
-	v_res = false;
-}
+StateManager::StateManager() : v_draw_all(false), v_running(true), v_res(false) {}
 
 void StateManager::cleanUp()
 {

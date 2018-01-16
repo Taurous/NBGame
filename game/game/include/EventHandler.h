@@ -15,12 +15,12 @@ namespace axe
 	class EventHandler
 	{
 	public:
-		EventHandler(void);
+		EventHandler();
 		~EventHandler(void);
 
 		void cleanUp();
 
-		void init(float fps);
+		int init(int engine_speed);
 
 		bool handleEvents(void);
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdexcept>
+//#include <stdexcept>
 
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_image.h>
@@ -10,7 +10,7 @@
 
 #include <string>
 
-#include "axeEngine\Util\Logger.h"
+#include "Util\Logger.h"
 
 namespace axe
 {

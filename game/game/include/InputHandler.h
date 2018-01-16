@@ -12,25 +12,25 @@ namespace axe
 {
 	enum 
 	{
-		MOUSE_LEFT = 1,
-		MOUSE_RIGHT = 2,
-		MOUSE_MIDDLE = 4
+		MOUSE_LEFT		= 0b0001,
+		MOUSE_RIGHT		= 0b0010,
+		MOUSE_MIDDLE	= 0b0100
 	};
 	enum
 	{
-		MOD_IGNORE	= 0b000'00000, //ignore modifiers
-		MOD_NONE	= 0b000'00001, //requires no modifiers down
-		MOD_SHIFT	= 0b000'00010,
-		MOD_CTRL	= 0b000'00100,
-		MOD_ALT		= 0b000'01000
+		MOD_IGNORE	= 0b00000000, //ignore modifiers
+		MOD_NONE	= 0b00000001, //requires no modifiers down
+		MOD_SHIFT	= 0b00000010,
+		MOD_CTRL	= 0b00000100,
+		MOD_ALT		= 0b00001000
 	};
 	enum
 	{
-		INPUT_ALLOW_CAPS		= 0b0000'0001,
-		INPUT_ALLOW_NEWLINE		= 0b0000'0010,
-		INPUT_ALLOW_NUMBERS		= 0b0000'0100,
-		INPUT_ALLOW_SPECIALS	= 0b0000'1000,
-		INPUT_ALLOW_SPACE		= 0b0001'0000
+		INPUT_ALLOW_CAPS		= 0b00000001,
+		INPUT_ALLOW_NEWLINE		= 0b00000010,
+		INPUT_ALLOW_NUMBERS		= 0b00000100,
+		INPUT_ALLOW_SPECIALS	= 0b00001000,
+		INPUT_ALLOW_SPACE		= 0b00010000
 	};
 
 	class InputHandler
@@ -39,7 +39,7 @@ namespace axe
 		InputHandler();
 		~InputHandler();
 
-		void init(void);
+		int init();
 
 		void getInput(const ALLEGRO_EVENT &ev);
 		void setInputString(std::string &in_string, unsigned short max_length, short flags = 0);

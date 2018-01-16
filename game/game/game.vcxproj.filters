@@ -48,9 +48,6 @@
     <ClCompile Include="src\InputHandler.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUIManager.cpp">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="src\EventHandler.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
@@ -75,29 +72,11 @@
     <ClCompile Include="src\Window.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\Button.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\Frame.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\GUIInteractable.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\GUIObject.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\ImageFrame.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\ScrollingTextFrame.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="src\Util\FPS.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
-    <ClCompile Include="src\Util\Logger.cpp">
-      <Filter>Source Files\Util</Filter>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -105,9 +84,6 @@
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\EventHandler.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GUIManager.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\InputHandler.h">
@@ -119,9 +95,6 @@
     <ClInclude Include="include\ResourceTypes.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\SettingsHandler.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="include\SoundManager.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
@@ -130,24 +103,6 @@
     </ClInclude>
     <ClInclude Include="include\AbstractState.h">
       <Filter>Header Files\States</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GUI\Button.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GUI\Frame.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GUI\GUIInteractable.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GUI\GUIObject.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GUI\ImageFrame.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GUI\ScrollingTextFrame.h">
-      <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\Util.h">
       <Filter>Header Files\Util</Filter>
@@ -162,6 +117,12 @@
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\Window.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SettingsHandler.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>

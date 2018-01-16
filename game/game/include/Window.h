@@ -1,6 +1,6 @@
 #pragma once
 
-#include "axeEngine\Util\Logger.h"
+#include "Util\Logger.h"
 #include <allegro5\allegro.h>
 #include <string>
 
@@ -9,7 +9,7 @@ namespace axe
 	class Window
 	{
 	public:
-		Window(int width, int height, std::string title, std::string icon_path, int flags = ALLEGRO_WINDOWED);
+		Window(int width, int height, std::string title, std::string icon_path = "", int flags = ALLEGRO_WINDOWED);
 		~Window();
 
 		void setWindowIcon(std::string path);

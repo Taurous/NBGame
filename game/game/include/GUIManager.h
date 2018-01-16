@@ -1,7 +1,7 @@
 #pragma once
 
-#include "axeEngine/GUI/GUIObject.h"
-#include "axeEngine/EventHandler.h"
+#include "GUI/GUIObject.h"
+#include "EventHandler.h"
 
 namespace axe
 {

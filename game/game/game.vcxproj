@@ -74,7 +74,7 @@
     <Allegro_AddonTTF>true</Allegro_AddonTTF>
     <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
     <Allegro_AddonAudio>true</Allegro_AddonAudio>
-    <Allegro_AddonAcodec>false</Allegro_AddonAcodec>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
     <Allegro_AddonPhysfs>false</Allegro_AddonPhysfs>
     <Allegro_AddonDialog>true</Allegro_AddonDialog>
     <Allegro_AddonMemfile>false</Allegro_AddonMemfile>
@@ -140,13 +140,7 @@
     <ClCompile Include="src\Draw.cpp" />
     <ClCompile Include="src\DrawEngine.cpp" />
     <ClCompile Include="src\EventHandler.cpp" />
-    <ClCompile Include="src\GUIManager.cpp" />
-    <ClCompile Include="src\GUI\Button.cpp" />
-    <ClCompile Include="src\GUI\Frame.cpp" />
-    <ClCompile Include="src\GUI\GUIInteractable.cpp" />
-    <ClCompile Include="src\GUI\GUIObject.cpp" />
-    <ClCompile Include="src\GUI\ImageFrame.cpp" />
-    <ClCompile Include="src\GUI\ScrollingTextFrame.cpp" />
+    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\InputHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ResourceTypes.cpp" />
@@ -154,20 +148,13 @@
     <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\Util\FPS.cpp" />
-    <ClCompile Include="src\Util\Logger.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AbstractState.h" />
     <ClInclude Include="include\DrawEngine.h" />
     <ClInclude Include="include\EventHandler.h" />
-    <ClInclude Include="include\GUIManager.h" />
-    <ClInclude Include="include\GUI\Button.h" />
-    <ClInclude Include="include\GUI\Frame.h" />
-    <ClInclude Include="include\GUI\GUIInteractable.h" />
-    <ClInclude Include="include\GUI\GUIObject.h" />
-    <ClInclude Include="include\GUI\ImageFrame.h" />
-    <ClInclude Include="include\GUI\ScrollingTextFrame.h" />
+    <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\InputHandler.h" />
     <ClInclude Include="include\ResourceManager.h" />
     <ClInclude Include="include\ResourceTypes.h" />

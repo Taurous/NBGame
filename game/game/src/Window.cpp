@@ -1,4 +1,4 @@
-#include "axeEngine\Window.h"
+#include "Window.h"
 
 namespace axe
 {
@@ -15,10 +15,9 @@ namespace axe
 		,	m_display_mode(nullptr)
 		,	m_current_display_mode(0)
 	{
-		printf("\n");
 		int num_display_adapters = al_get_num_video_adapters();
 		m_monitor_info = new ALLEGRO_MONITOR_INFO[num_display_adapters];
-		printf("Number of display adapters detected: %i\n", num_display_adapters);
+		printf("\nNumber of display adapters detected: %i\n", num_display_adapters);
 		for (int i = 0; i < num_display_adapters; ++i)
 		{
 			al_get_monitor_info(i, &m_monitor_info[i]);

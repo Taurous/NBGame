@@ -240,6 +240,11 @@ void InputHandler::setInputString(std::string &in_string, unsigned short max_len
 
 void InputHandler::clearInputString(void)
 {
+	*input_string = "";
+}
+
+void InputHandler::stopInputString()
+{
 	max_input_length = 0;
 	input_string = nullptr;
 }

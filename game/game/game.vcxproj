@@ -82,9 +82,20 @@
     <Allegro_AddonColor>false</Allegro_AddonColor>
     <Allegro_AddonVideo>false</Allegro_AddonVideo>
     <Allegro_LibraryType>DynamicDebug</Allegro_LibraryType>
-    <IncludePath>C:\nicest_boy\dev\repo\game\game\include;$(IncludePath)</IncludePath>
-    <SourcePath>C:\nicest_boy\dev\repo\game\game\src;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)\src;$(SourcePath)</SourcePath>
     <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)\src;$(SourcePath)</SourcePath>
+    <Allegro_AddonImage>true</Allegro_AddonImage>
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonAudio>true</Allegro_AddonAudio>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
+    <Allegro_AddonDialog>true</Allegro_AddonDialog>
+    <Allegro_AddonFont>true</Allegro_AddonFont>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -142,11 +153,14 @@
     <ClCompile Include="src\EventHandler.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\InputHandler.cpp" />
+    <ClCompile Include="src\LuaUtil.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\NodeManager.cpp" />
     <ClCompile Include="src\ResourceTypes.cpp" />
     <ClCompile Include="src\SettingsHandler.cpp" />
     <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
+    <ClCompile Include="src\StoryNode.cpp" />
     <ClCompile Include="src\Util\FPS.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
@@ -156,11 +170,14 @@
     <ClInclude Include="include\EventHandler.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\InputHandler.h" />
+    <ClInclude Include="include\LuaUtil.h" />
+    <ClInclude Include="include\NodeManager.h" />
     <ClInclude Include="include\ResourceManager.h" />
     <ClInclude Include="include\ResourceTypes.h" />
     <ClInclude Include="include\SettingsHandler.h" />
     <ClInclude Include="include\SoundManager.h" />
     <ClInclude Include="include\StateManager.h" />
+    <ClInclude Include="include\StoryNode.h" />
     <ClInclude Include="include\Util\FPS.h" />
     <ClInclude Include="include\Util\Logger.h" />
     <ClInclude Include="include\Util\Timer.h" />

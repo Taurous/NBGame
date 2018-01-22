@@ -9,8 +9,10 @@ namespace axe
 	class Window
 	{
 	public:
-		Window(int width, int height, std::string title, std::string icon_path = "", int flags = ALLEGRO_WINDOWED);
+		Window();
 		~Window();
+
+		bool create(int width, int height, std::string title, std::string icon_path = "", int flags = ALLEGRO_WINDOWED);
 
 		void setWindowIcon(std::string path);
 		void setWindowTitle(std::string title);
@@ -24,10 +26,10 @@ namespace axe
 
 		void centerWindow(); // Untested
 
-		void cleanUp(); // Called in destructor
+		void printDisplayModes();
 
 	private:
-		void createWindow();
+		bool createWindow();
 
 		ALLEGRO_MONITOR_INFO *m_monitor_info;
 		ALLEGRO_DISPLAY_MODE *m_display_mode;

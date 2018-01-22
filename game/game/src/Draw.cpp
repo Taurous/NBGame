@@ -49,7 +49,7 @@ namespace axe
 		{
 			t_cursorFlash.start();
 		}
-		else if (t_cursorFlash.elapsed() > speed && fonts[font]->getStringWidth(text) < string_length - fonts[font]->getStringWidth("_"))
+		else if (t_cursorFlash.elapsed() > speed && text.size() < string_length)
 		{
 			drawText(font, cl, x + fonts[font]->getStringWidth(text), y, 0, "_");
 		}

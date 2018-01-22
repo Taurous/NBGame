@@ -9,7 +9,9 @@
 //#include "SoundManager.h"
 #include "StateManager.h"
 
-const int _ENGINE_SPEED = 60;
+#include "NodeManager.h"
+
+const int ENGINE_SPEED = 60;
 
 class Game
 {
@@ -22,10 +24,17 @@ public:
 	void destroy();
 
 private:
-	axe::InputHandler *m_ih;
-	axe::EventHandler *m_eh;
-	axe::Window *m_wind;
-	axe::DrawEngine *m_de;
-	axe::StateManager m_sm;
+	axe::InputHandler m_input;
+	axe::EventHandler m_events;
+	axe::DrawEngine m_draw;
+	axe::StateManager m_states;
+
+	NodeManager m_nodes;
+
+	axe::ResourceHandle<axe::Font> fn;
 };
 
+//Class MyClass
+//Function myFunction
+//Variable my_variable
+//Constant MY_CONSTANT

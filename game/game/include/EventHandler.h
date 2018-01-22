@@ -18,8 +18,6 @@ namespace axe
 		EventHandler();
 		~EventHandler(void);
 
-		void cleanUp();
-
 		int init(int engine_speed);
 
 		bool handleEvents(void);

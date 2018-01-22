@@ -1,8 +1,10 @@
 #include "Game.h"
 
-Game::Game()
+Game::Game() : m_nodes(1)
 {
-
+#ifndef _DEBUG
+	axe::setOutputFile("log.txt");
+#endif
 }
 
 Game::~Game()
@@ -12,29 +14,21 @@ Game::~Game()
 
 int Game::init()
 {
-	//Init all systems
-#ifndef _DEBUG
-	axe::setOutputFile("log.txt");
-#endif
+	
 
-	if (!al_init())
+	m_events.init(ENGINE_SPEED);
+
+	if (!m_draw.createWindow(640, 480, "The Game"))
 	{
-		return 1;
+		return 2;
 	}
 
-	m_ih = new axe::InputHandler();
+	m_draw.getWindow().registerForEvents(m_events.getEventQueue());
 
-	m_eh = new axe::EventHandler();
-	m_eh->init(_ENGINE_SPEED);
+	m_draw.fonts.setPathToResources("res/fonts/");
+	m_draw.bitmaps.setPathToResources("res/textures/");
 
-	m_wind = new axe::Window(640, 480, "Nicest Boy Studios - The Game");
-	m_wind->registerForEvents(m_eh->getEventQueue());
-
-	m_de = new axe::DrawEngine();
-	m_de->init(m_wind);
-
-	m_de->fonts.setPathToResources("res/fonts/");
-	m_de->bitmaps.setPathToResources("res/textures/");
+	fn = m_draw.fonts.getResource("24-VCR_OSD_MONO_1.ttf");
 
 	return 0;
 }
@@ -43,23 +37,33 @@ int Game::run()
 {
 	bool exit = false;
 	bool redraw = true;
+	std::string in_string;
 
-	m_eh->startTimer();
+	m_input.setInputString(in_string, 30, axe::INPUT_ALLOW_SPACE | axe::INPUT_ALLOW_NUMBERS);
+
+	m_events.startTimer();
 	while (!exit)
 	{
-		if (m_eh->handleEvents())
+		if (m_events.handleEvents())
 		{
-			m_ih->getInput(m_eh->getEvent());
+			m_input.getInput(m_events.getEvent());
 
-			if (m_ih->isKeyPressed(ALLEGRO_KEY_ESCAPE) || m_eh->eventIs(ALLEGRO_EVENT_DISPLAY_CLOSE))
+			if (m_input.isKeyPressed(ALLEGRO_KEY_ESCAPE) || m_events.eventIs(ALLEGRO_EVENT_DISPLAY_CLOSE))
 			{
 				exit = true;
 			}
-			else if (m_eh->eventIs(ALLEGRO_EVENT_TIMER))
+			else if (m_events.eventIs(ALLEGRO_EVENT_TIMER))
 			{
 				redraw = true;
 			}
-			else if (m_eh->eventIs(axe::GUI_EVENT_BUTTON_PRESSED))
+			else if (m_input.isKeyPressed(ALLEGRO_KEY_ENTER))
+			{
+				m_nodes.handleInput(in_string);
+				m_input.clearInputString();
+
+				m_nodes.cleanNodeList();
+			}
+			else if (m_events.eventIs(axe::GUI_EVENT_BUTTON_PRESSED))
 			{
 				/*if (events.getEvent().user.data1 == button->getID())
 				{
@@ -68,9 +72,11 @@ int Game::run()
 			}
 		}
 
-		if (m_eh->eventQueueEmpty() && redraw)
+		if (m_events.eventQueueEmpty() && redraw)
 		{
-			m_de->flipAndClear(al_map_rgb(0, 0, 0));
+			m_draw.drawTextWithCursor(fn, al_map_rgb(0, 255, 0), 16, 16, 0, axe::m_secs(100), 30, in_string);
+
+			m_draw.flipAndClear(al_map_rgb(0, 0, 0));
 			redraw = false;
 		}
 	}
@@ -80,8 +86,5 @@ int Game::run()
 
 void Game::destroy()
 {
-	delete m_de;
-	delete m_wind;
-	delete m_eh;
-	delete m_ih;
+
 }

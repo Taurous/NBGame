@@ -2,22 +2,29 @@
 
 int main(int argc, char ** argv)
 {
+	if (!al_init())
+	{
+		return -1;
+	}
+
 	int msg;
 
-	Game game;
+	Game *game = new Game;
 
-	msg = game.init();
+	msg = game->init();
 
 	if (msg)
 	{
-		game.destroy();
+		game->destroy();
 	}
 	else
 	{
-		msg = game.run();
+		msg = game->run();
 	}
 
-	game.destroy();
+	game->destroy();
+
+	delete game;
 
 	return msg;
 }

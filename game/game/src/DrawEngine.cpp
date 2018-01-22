@@ -4,7 +4,17 @@ using namespace axe;
 
 DrawEngine::DrawEngine()
 {
+	al_init_image_addon();
+	al_init_primitives_addon();
+	al_init_font_addon();
+	al_init_ttf_addon();
 
+	bitmaps.setPathToResources("resources/textures/");	// Default Path
+	fonts.setPathToResources("resources/fonts/");		// Default Path
+
+	t_cursorFlash.start();
+
+	printf("DrawEngine Initialized\n");
 }
 
 DrawEngine::~DrawEngine()
@@ -13,31 +23,13 @@ DrawEngine::~DrawEngine()
 	fonts.cleanUp();
 }
 
-int DrawEngine::init(Window *window)
+bool DrawEngine::createWindow(int width, int height, std::string title, std::string icon_path, int flags)
 {
-	al_init_image_addon();
-	al_init_primitives_addon();
-	al_init_font_addon();
-	al_init_ttf_addon();
-
-	bitmaps.setPathToResources("resources/textures/");
-	fonts.setPathToResources("resources/fonts/");
-
-	m_window = window;
-
-	t_cursorFlash.start();
-
-	printf("DrawEngine Initialized\n");
-
-	return 0;
+	return m_window.create(width, height, title, icon_path, flags);
 }
 void axe::DrawEngine::handleEvents(const ALLEGRO_EVENT &ev)
 {
 
-}
-void DrawEngine::cleanUp()
-{
-	
 }
 
 int DrawEngine::formatStringByWidth(const ResourceHandle<Font> &font, int max_string_width, std::string &str)

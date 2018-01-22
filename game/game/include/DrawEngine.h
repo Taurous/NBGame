@@ -26,14 +26,13 @@ namespace axe
 		DrawEngine();
 		~DrawEngine();
 
-		int init(Window *window);
+		bool createWindow(int width, int height, std::string title, std::string icon_path = "", int flags = ALLEGRO_WINDOWED);
 		void handleEvents(const ALLEGRO_EVENT &ev);
-		void cleanUp();
 
-		int getWindowWidth() { return m_window->getScreenWidth(); }
-		int getWindowHeight() { return m_window->getScreenHeight(); }
-
-		bool getWindowFullscreen() { return m_window->getFullscreen(); }
+		Window &getWindow() { return m_window; }
+		int getWindowWidth() { return m_window.getScreenWidth(); }
+		int getWindowHeight() { return m_window.getScreenHeight(); }
+		bool getWindowFullscreen() { return m_window.getFullscreen(); }
 
 		void drawText(ResourceHandle<Font> font, ALLEGRO_COLOR cl, float x, float y, int flags, std::string text);
 		void drawTextF(ResourceHandle<Font> font, ALLEGRO_COLOR cl, float x, float y, int flags, std::string format, ...);
@@ -53,7 +52,7 @@ namespace axe
 		ResourceManager<Font> fonts;
 
 	private:
-		Window *m_window;
+		Window m_window;
 		Timer t_cursorFlash;
 
 	};

@@ -44,6 +44,7 @@ namespace axe
 		void getInput(const ALLEGRO_EVENT &ev);
 		void setInputString(std::string &in_string, unsigned short max_length, short flags = 0);
 		void clearInputString();
+		void stopInputString();
 
 		bool isKeyPressed(const int key, const char &mod = MOD_IGNORE) const;
 		bool isKeyReleased(const int key, const char &mod = MOD_IGNORE) const;

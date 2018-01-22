@@ -27,11 +27,6 @@ int EventHandler::init(int engine_speed)
 
 EventHandler::~EventHandler(void)
 {
-	
-}
-
-void EventHandler::cleanUp()
-{
 	al_unregister_event_source(event_queue, &user_event_source);
 	al_destroy_event_queue(event_queue);
 	al_destroy_timer(timer);

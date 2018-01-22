@@ -17,9 +17,9 @@ namespace axe
 		void setWindowIcon(std::string path);
 		void setWindowTitle(std::string title);
 
-		bool getFullscreen() { return (m_flags & ALLEGRO_FULLSCREEN || m_flags & ALLEGRO_FULLSCREEN_WINDOW); }
-		int getScreenWidth() { return m_width; }
-		int getScreenHeight() { return m_height; }
+		bool getFullscreen() const { return (m_flags & ALLEGRO_FULLSCREEN || m_flags & ALLEGRO_FULLSCREEN_WINDOW); }
+		int getScreenWidth() const { return m_width; }
+		int getScreenHeight() const { return m_height; }
 
 		void registerForEvents(ALLEGRO_EVENT_QUEUE *eq);
 		ALLEGRO_DISPLAY *getAllegroDisplay() { return m_display; }

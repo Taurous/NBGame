@@ -1,12 +1,5 @@
 #pragma once
 
-#include "Util\Logger.h"
-#include "Util\Timer.h" // For cursor blinking
-
-#include "Window.h"
-#include "ResourceManager.h"
-#include "ResourceTypes.h"
-
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_image.h>
 #include <allegro5\allegro_primitives.h>
@@ -15,6 +8,13 @@
 
 #include <vector>
 #include <string>
+
+#include "Window.h"
+#include "ResourceManager.h"
+#include "ResourceTypes.h"
+
+#include "Util\Logger.h"
+#include "Util\Timer.h" // For cursor blinking
 
 namespace axe
 {

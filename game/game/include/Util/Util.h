@@ -4,6 +4,10 @@
 
 namespace axe
 {
+	typedef uint8_t Bitfield_8;
+	typedef uint16_t Bitfield_16;
+	typedef uint32_t Bitfield_32;
+
 	template <typename T>
 	inline bool getBit(const T &bitfield, const int &bit)
 	{

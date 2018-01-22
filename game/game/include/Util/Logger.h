@@ -1,8 +1,9 @@
 #pragma once
 
 #include <allegro5\allegro_native_dialog.h>
-#include <stdarg.h>
-#include <stdio.h>
+#include <cstdarg>
+#include <cstdio>
+#include <cstdlib>
 #include <string>
 
 namespace axe
@@ -61,5 +62,6 @@ namespace axe
 		log(LOGGER_ERROR, buffer);
 		al_show_native_message_box(NULL, "CRITICAL ERROR", "CRITICAL ERROR", buffer, NULL, ALLEGRO_MESSAGEBOX_ERROR);
 
+		exit(EXIT_FAILURE);
 	}
 };

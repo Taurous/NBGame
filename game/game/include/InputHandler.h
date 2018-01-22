@@ -1,12 +1,11 @@
 #pragma once
 
-#include "Util\Timer.h"
-#include "Util\Logger.h"
-#include "Util\Util.h"
-
 #include <string>
 #include <allegro5/allegro.h>
 
+#include "Util\Timer.h" //For timing character deletion
+#include "Util\Logger.h"
+#include "Util\Util.h" // For Bitset/Bitget
 
 namespace axe
 {
@@ -39,8 +38,6 @@ namespace axe
 		InputHandler();
 		~InputHandler();
 
-		int init();
-
 		void getInput(const ALLEGRO_EVENT &ev);
 		void setInputString(std::string &in_string, unsigned short max_length, short flags = 0);
 		void clearInputString();
@@ -61,17 +58,15 @@ namespace axe
 		bool isMouseInWindow() const;
 
 	private:
-		bool initialized;
 		bool backspace;
 
-		char m_mod_flags;
-		char m_input_flags;
+		axe::Bitfield_8 m_mod_flags;
+		axe::Bitfield_8 m_input_flags;
 
 		unsigned short max_input_length;
 		
 		std::string *input_string;
 	
-		
 		m_secs backspace_wait;
 		Timer timer;
 

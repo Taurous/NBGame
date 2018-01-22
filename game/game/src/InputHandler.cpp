@@ -46,14 +46,8 @@ InputHandler::InputHandler()
 	, input_string(nullptr)
 	, max_input_length(0)
 	, backspace_wait(BACKSPACE_WAIT_TIME)
-	, initialized(false)
 {
-	init();
-}
-
-int InputHandler::init()
-{
-	if (!initialized)
+	if (al_is_system_installed())
 	{
 		al_install_keyboard();
 		al_install_mouse();
@@ -63,15 +57,12 @@ int InputHandler::init()
 		al_get_keyboard_state(&prev_key_state);
 		cur_key_state = prev_key_state;
 
-		initialized = true;
 		axe::log(LOGGER_MESSAGE, "InputHandler initialized!\n");
 	}
 	else
 	{
-		axe::log(LOGGER_WARNING, "InputHandler already initialized! Cannot create more than one InputHandler!\n");
+		axe::crash("Unable to create InputHandler. Allegro is not installed!\n");
 	}
-
-	return 0;
 }
 
 InputHandler::~InputHandler()

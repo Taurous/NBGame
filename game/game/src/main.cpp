@@ -2,9 +2,9 @@
 
 int main(int argc, char ** argv)
 {
-	if (!al_init())
+	//if (!al_init())
 	{
-		return -1;
+	//	return -1;
 	}
 
 	int msg;

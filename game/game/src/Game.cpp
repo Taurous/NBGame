@@ -1,36 +1,22 @@
 #include "Game.h"
 
-Game::Game() : m_nodes(1)
+Game::Game() : m_nodes(1), m_events(ENGINE_SPEED)
 {
-#ifndef _DEBUG
-	axe::setOutputFile("log.txt");
-#endif
-}
+	// Load settings before creating window to supply dimensions
 
-Game::~Game()
-{
-
-}
-
-int Game::init()
-{
-	
-
-	m_events.init(ENGINE_SPEED);
-
-	if (!m_draw.createWindow(640, 480, "The Game"))
-	{
-		return 2;
-	}
-
+	m_draw.createWindow(640, 480, "The Game");
 	m_draw.getWindow().registerForEvents(m_events.getEventQueue());
 
 	m_draw.fonts.setPathToResources("res/fonts/");
 	m_draw.bitmaps.setPathToResources("res/textures/");
 
 	fn = m_draw.fonts.getResource("24-VCR_OSD_MONO_1.ttf");
+}
 
-	return 0;
+Game::~Game()
+{
+	axe::log(axe::LOGGER_MESSAGE, "In Game Destructor\n");
+	// Save settings
 }
 
 int Game::run()
@@ -62,6 +48,10 @@ int Game::run()
 				m_input.clearInputString();
 
 				m_nodes.cleanNodeList();
+			}
+			else if (m_input.isMousePressed(axe::MOUSE_LEFT))
+			{
+				printf("Mouse Left Pressed\n");
 			}
 			else if (m_events.eventIs(axe::GUI_EVENT_BUTTON_PRESSED))
 			{

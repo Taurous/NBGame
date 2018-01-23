@@ -2,12 +2,7 @@
 
 using namespace axe;
 
-EventHandler::EventHandler() : focus(true), event_queue(nullptr), timer(nullptr)
-{
-
-}
-
-int EventHandler::init(int engine_speed)
+EventHandler::EventHandler(int engine_speed) : focus(true), event_queue(nullptr), timer(nullptr)
 {
 	timer = al_create_timer(1.0f / float(engine_speed));
 
@@ -21,8 +16,6 @@ int EventHandler::init(int engine_speed)
 	al_register_event_source(event_queue, &user_event_source);
 
 	axe::log(LOGGER_MESSAGE, "EventHandler Initialized\n");
-
-	return 0; // Need to error check this function
 }
 
 EventHandler::~EventHandler(void)

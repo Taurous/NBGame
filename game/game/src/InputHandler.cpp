@@ -47,22 +47,15 @@ InputHandler::InputHandler()
 	, max_input_length(0)
 	, backspace_wait(BACKSPACE_WAIT_TIME)
 {
-	if (al_is_system_installed())
-	{
-		al_install_keyboard();
-		al_install_mouse();
+	al_install_keyboard();
+	al_install_mouse();
 
-		al_get_mouse_state(&prev_mouse_state);
-		cur_mouse_state = prev_mouse_state;
-		al_get_keyboard_state(&prev_key_state);
-		cur_key_state = prev_key_state;
+	al_get_mouse_state(&prev_mouse_state);
+	cur_mouse_state = prev_mouse_state;
+	al_get_keyboard_state(&prev_key_state);
+	cur_key_state = prev_key_state;
 
-		axe::log(LOGGER_MESSAGE, "InputHandler initialized!\n");
-	}
-	else
-	{
-		axe::crash("Unable to create InputHandler. Allegro is not installed!\n");
-	}
+	axe::log(LOGGER_MESSAGE, "InputHandler initialized\n");
 }
 
 InputHandler::~InputHandler()
@@ -91,6 +84,7 @@ void InputHandler::getInput(const ALLEGRO_EVENT &ev)
 		{
 		case ALLEGRO_KEY_LSHIFT:
 		case ALLEGRO_KEY_RSHIFT:
+			m_mod_flags.set(MOD_SHIFT, true); // Doesn't work.
 			setBit(m_mod_flags, MOD_SHIFT, true);
 			setBit(m_mod_flags, MOD_NONE, false);
 			break;
@@ -119,57 +113,7 @@ void InputHandler::getInput(const ALLEGRO_EVENT &ev)
 		Not completely done, some characters missing, and some issues still present.
 		*/
 
-		if (input_string != nullptr)
-		{
-			bool shift = (m_mod_flags & MOD_SHIFT) && INPUT_ALLOW_CAPS; // get if shift pressed
-			unsigned char c = ev.keyboard.keycode;
-
-			if (c <= ALLEGRO_KEY_Z)
-			{
-				c = letters[c];
-
-				if (char(shift) & m_input_flags) c = toupper(c);
-
-				stringPushBack(c);
-			}
-			else if (c <= ALLEGRO_KEY_PAD_9)
-			{
-				if (c <= ALLEGRO_KEY_9 && shift && INPUT_ALLOW_SPECIALS & m_input_flags)
-				{
-					c += 10; // if shift, increase number row to special characters
-					stringPushBack(letters[c]);
-				}
-				else if (c >= ALLEGRO_KEY_PAD_0 && INPUT_ALLOW_NUMBERS & m_input_flags)
-				{
-					c -= 10; // If key pad is used, shrink to number row
-					stringPushBack(letters[c]);
-				}
-				else if (INPUT_ALLOW_NUMBERS & m_input_flags)
-				{
-					stringPushBack(letters[c]);
-				}
-			}
-			else
-			{
-				switch (c)
-				{
-				case ALLEGRO_KEY_FULLSTOP:
-					if (INPUT_ALLOW_SPECIALS & m_input_flags) stringPushBack('.');
-					break;
-				case ALLEGRO_KEY_SPACE:
-					if (INPUT_ALLOW_SPACE & m_input_flags) stringPushBack(' ');
-					break;
-				case ALLEGRO_KEY_ENTER:
-					if (INPUT_ALLOW_NEWLINE & m_input_flags) stringPushBack('\n');
-					break;
-				case ALLEGRO_KEY_COMMA:
-					if (INPUT_ALLOW_SPECIALS & m_input_flags) stringPushBack(',');
-					break;
-				default:
-					break;
-				}
-			}
-		}
+		handleTextInput(ev);
 	}
 
 	// Clear Modifiers Released
@@ -217,6 +161,61 @@ void InputHandler::getInput(const ALLEGRO_EVENT &ev)
 			{
 				input_string->pop_back();
 				backspace_wait = ms + BACKSPACE_CHAR_DELETE_TIME;
+			}
+		}
+	}
+}
+
+void InputHandler::handleTextInput(const ALLEGRO_EVENT &ev)
+{
+	if (input_string != nullptr)
+	{
+		bool shift = (m_mod_flags & MOD_SHIFT) && INPUT_ALLOW_CAPS; // get if shift pressed
+		unsigned char c = ev.keyboard.keycode;
+
+		if (c <= ALLEGRO_KEY_Z)
+		{
+			c = letters[c];
+
+			if (char(shift) & m_input_flags) c = toupper(c);
+
+			stringPushBack(c);
+		}
+		else if (c <= ALLEGRO_KEY_PAD_9)
+		{
+			if (c <= ALLEGRO_KEY_9 && shift && INPUT_ALLOW_SPECIALS & m_input_flags)
+			{
+				c += 10; // if shift, increase number row to special characters
+				stringPushBack(letters[c]);
+			}
+			else if (c >= ALLEGRO_KEY_PAD_0 && INPUT_ALLOW_NUMBERS & m_input_flags)
+			{
+				c -= 10; // If key pad is used, shrink to number row
+				stringPushBack(letters[c]);
+			}
+			else if (INPUT_ALLOW_NUMBERS & m_input_flags)
+			{
+				stringPushBack(letters[c]);
+			}
+		}
+		else
+		{
+			switch (c)
+			{
+			case ALLEGRO_KEY_FULLSTOP:
+				if (INPUT_ALLOW_SPECIALS & m_input_flags) stringPushBack('.');
+				break;
+			case ALLEGRO_KEY_SPACE:
+				if (INPUT_ALLOW_SPACE & m_input_flags) stringPushBack(' ');
+				break;
+			case ALLEGRO_KEY_ENTER:
+				if (INPUT_ALLOW_NEWLINE & m_input_flags) stringPushBack('\n');
+				break;
+			case ALLEGRO_KEY_COMMA:
+				if (INPUT_ALLOW_SPECIALS & m_input_flags) stringPushBack(',');
+				break;
+			default:
+				break;
 			}
 		}
 	}

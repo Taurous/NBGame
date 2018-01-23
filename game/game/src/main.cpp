@@ -2,29 +2,18 @@
 
 int main(int argc, char ** argv)
 {
-	//if (!al_init())
+#ifndef _DEBUG
+	axe::setOutputFile("log.txt");
+#endif
+
+	if (!al_init())
 	{
-	//	return -1;
+		axe::crash("Unable to initialize Allegro!");
 	}
 
-	int msg;
+	Game game;
 
-	Game *game = new Game;
+	game.run();
 
-	msg = game->init();
-
-	if (msg)
-	{
-		game->destroy();
-	}
-	else
-	{
-		msg = game->run();
-	}
-
-	game->destroy();
-
-	delete game;
-
-	return msg;
+	return EXIT_SUCCESS;
 }

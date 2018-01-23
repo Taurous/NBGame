@@ -26,7 +26,7 @@ namespace axe
 		DrawEngine();
 		~DrawEngine();
 
-		bool createWindow(int width, int height, std::string title, std::string icon_path = "", int flags = ALLEGRO_WINDOWED);
+		void createWindow(int width, int height, std::string title, std::string icon_path = "", int flags = ALLEGRO_WINDOWED);
 		void handleEvents(const ALLEGRO_EVENT &ev);
 
 		Window &getWindow() { return m_window; }

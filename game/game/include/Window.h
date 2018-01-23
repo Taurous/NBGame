@@ -12,7 +12,7 @@ namespace axe
 		Window();
 		~Window();
 
-		bool create(int width, int height, std::string title, std::string icon_path = "", int flags = ALLEGRO_WINDOWED);
+		void create(int width, int height, std::string title, std::string icon_path = "", int flags = ALLEGRO_WINDOWED);
 
 		void setWindowIcon(std::string path);
 		void setWindowTitle(std::string title);
@@ -29,7 +29,7 @@ namespace axe
 		void printDisplayModes();
 
 	private:
-		bool createWindow();
+		void createWindow();
 
 		ALLEGRO_MONITOR_INFO *m_monitor_info;
 		ALLEGRO_DISPLAY_MODE *m_display_mode;

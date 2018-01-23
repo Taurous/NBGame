@@ -113,9 +113,6 @@
     <ClInclude Include="include\AbstractState.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
-    <ClInclude Include="include\Util\Util.h">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
     <ClInclude Include="include\Util\FPS.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>

@@ -30,7 +30,7 @@ namespace axe
 		m_display = nullptr;
 	}
 
-	bool Window::create(int width, int height, std::string title, std::string icon_path, int flags)
+	void Window::create(int width, int height, std::string title, std::string icon_path, int flags)
 	{
 		m_width = width;
 		m_height = height;
@@ -61,7 +61,7 @@ namespace axe
 
 		//printDisplayModes();
 
-		return createWindow();
+		createWindow();
 	}
 
 	void Window::printDisplayModes()
@@ -85,7 +85,7 @@ namespace axe
 		printf("\n");
 	}
 
-	bool Window::createWindow()
+	void Window::createWindow()
 	{
 		al_set_new_display_flags(m_flags);
 
@@ -94,7 +94,6 @@ namespace axe
 		if (!m_display)
 		{
 			axe::crash("Unable to create display at resolution %ix%i", m_width, m_height);
-			return false;
 		}
 
 		m_width = al_get_display_width(m_display); // Get actual display resoltuion (if created with ALLEGRO_FULLSCREEN_WINDOW, passed in resolution is ignored and window is set to size of desktop)
@@ -102,8 +101,6 @@ namespace axe
 	
 		setWindowTitle(m_title);
 		setWindowIcon(m_icon_path);
-
-		return true;
 	}
 
 	void Window::setWindowIcon(std::string path)

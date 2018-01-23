@@ -47,7 +47,7 @@ namespace axe
 			break;
 		}
 
-		//printf("%s%s", st.c_str(), buffer);
+		printf("%s%s", st.c_str(), buffer);
 	}
 
 	static void crash(const char *fmt, ...)
@@ -61,6 +61,8 @@ namespace axe
 
 		log(LOGGER_ERROR, buffer);
 		al_show_native_message_box(NULL, "CRITICAL ERROR", "CRITICAL ERROR", buffer, NULL, ALLEGRO_MESSAGEBOX_ERROR);
+		axe::log(axe::LOGGER_ERROR, buffer);
+		axe::log(axe::LOGGER_ERROR, "\nExiting Application...\n");
 
 		exit(EXIT_FAILURE);
 	}

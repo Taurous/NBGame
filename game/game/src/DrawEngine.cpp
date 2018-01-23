@@ -23,9 +23,9 @@ DrawEngine::~DrawEngine()
 	fonts.cleanUp();
 }
 
-bool DrawEngine::createWindow(int width, int height, std::string title, std::string icon_path, int flags)
+void DrawEngine::createWindow(int width, int height, std::string title, std::string icon_path, int flags)
 {
-	return m_window.create(width, height, title, icon_path, flags);
+	m_window.create(width, height, title, icon_path, flags);
 }
 void axe::DrawEngine::handleEvents(const ALLEGRO_EVENT &ev)
 {

@@ -1,5 +1,7 @@
 #include "InputHandler.h"
 
+#include "Util\Util.h"
+
 using namespace axe;
 
 const unsigned char letters[] = {
@@ -40,20 +42,18 @@ void deleteWord(std::string &str)
 }
 
 InputHandler::InputHandler()
-	: m_input_flags(0)
-	, m_mod_flags(0)
-	, backspace(false)
-	, input_string(nullptr)
-	, max_input_length(0)
-	, backspace_wait(BACKSPACE_WAIT_TIME)
+	: m_mod_flags(0)
+	, m_backspace(false)
+	, m_max_input_length(0)
+	, m_backspace_wait(BACKSPACE_WAIT_TIME)
 {
 	al_install_keyboard();
 	al_install_mouse();
 
-	al_get_mouse_state(&prev_mouse_state);
-	cur_mouse_state = prev_mouse_state;
-	al_get_keyboard_state(&prev_key_state);
-	cur_key_state = prev_key_state;
+	al_get_mouse_state(&m_prev_mouse_state);
+	m_cur_mouse_state = m_prev_mouse_state;
+	al_get_keyboard_state(&m_prev_key_state);
+	m_cur_key_state = m_prev_key_state;
 
 	axe::log(LOGGER_MESSAGE, "InputHandler initialized\n");
 }
@@ -66,16 +66,16 @@ InputHandler::~InputHandler()
 
 void InputHandler::stringPushBack(char c)
 {
-	if (input_string->size() < max_input_length) input_string->push_back(c);
+	if (m_input_string.size() < m_max_input_length) m_input_string.push_back(c);
 }
 
 void InputHandler::getInput(const ALLEGRO_EVENT &ev)
 {
-	prev_mouse_state = cur_mouse_state;
-	al_get_mouse_state(&cur_mouse_state);
+	m_prev_mouse_state = m_cur_mouse_state;
+	al_get_mouse_state(&m_cur_mouse_state);
 
-	prev_key_state = cur_key_state;
-	al_get_keyboard_state(&cur_key_state);
+	m_prev_key_state = m_cur_key_state;
+	al_get_keyboard_state(&m_cur_key_state);
 
 	if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
 	{
@@ -84,7 +84,6 @@ void InputHandler::getInput(const ALLEGRO_EVENT &ev)
 		{
 		case ALLEGRO_KEY_LSHIFT:
 		case ALLEGRO_KEY_RSHIFT:
-			m_mod_flags.set(MOD_SHIFT, true); // Doesn't work.
 			setBit(m_mod_flags, MOD_SHIFT, true);
 			setBit(m_mod_flags, MOD_NONE, false);
 			break;
@@ -98,11 +97,11 @@ void InputHandler::getInput(const ALLEGRO_EVENT &ev)
 			setBit(m_mod_flags, MOD_NONE, false);
 			break;
 		case ALLEGRO_KEY_BACKSPACE:
-			backspace = true;
-			backspace_wait = m_secs(0);
-			timer.start();
-			if (m_mod_flags & MOD_CTRL) deleteWord(*input_string);
-			else deleteCharacter(*input_string);
+			m_backspace = true;
+			m_backspace_wait = m_secs(0);
+			m_timer.start();
+			if (m_mod_flags & MOD_CTRL) deleteWord(m_input_string);
+			else deleteCharacter(m_input_string);
 			break;
 		default:
 			break;
@@ -133,7 +132,7 @@ void InputHandler::getInput(const ALLEGRO_EVENT &ev)
 			setBit(m_mod_flags, MOD_CTRL, false);
 			break;
 		case ALLEGRO_KEY_BACKSPACE:
-			backspace = false;
+			m_backspace = false;
 			break;
 		default:
 			break;
@@ -141,26 +140,26 @@ void InputHandler::getInput(const ALLEGRO_EVENT &ev)
 		if (!m_mod_flags) m_mod_flags = MOD_NONE;
 	}
 
-	if (backspace && input_string)
+	if (m_backspace && m_text_input_enabled)
 	{
-		m_secs ms = timer.elapsed();
+		m_secs ms = m_timer.elapsed();
 
-		if (input_string->size() > 0 && ms > BACKSPACE_WAIT_TIME && ms > backspace_wait)
+		if (m_input_string.size() > 0 && ms > BACKSPACE_WAIT_TIME && ms > m_backspace_wait)
 		{
 			if (m_mod_flags & MOD_CTRL) // If Control is pressed, delete characters until ' ' is reached.
 			{
-				backspace_wait = ms + BACKSPACE_WORD_DELETE_TIME; // increase wait time so word deletion isnt too fast
-				while (input_string->size() > 0)
+				m_backspace_wait = ms + BACKSPACE_WORD_DELETE_TIME; // increase wait time so word deletion isnt too fast
+				while (m_input_string.size() > 0)
 				{
-					input_string->pop_back();
-					if (input_string->empty()) return;
-					else if (input_string->back() == ' ') return;
+					m_input_string.pop_back();
+					if (m_input_string.empty()) return;
+					else if (m_input_string.back() == ' ') return;
 				}
 			}
 			else // Delete by character, or if deleting by words, delete last space.
 			{
-				input_string->pop_back();
-				backspace_wait = ms + BACKSPACE_CHAR_DELETE_TIME;
+				m_input_string.pop_back();
+				m_backspace_wait = ms + BACKSPACE_CHAR_DELETE_TIME;
 			}
 		}
 	}
@@ -168,32 +167,32 @@ void InputHandler::getInput(const ALLEGRO_EVENT &ev)
 
 void InputHandler::handleTextInput(const ALLEGRO_EVENT &ev)
 {
-	if (input_string != nullptr)
+	if (m_text_input_enabled)
 	{
-		bool shift = (m_mod_flags & MOD_SHIFT) && INPUT_ALLOW_CAPS; // get if shift pressed
+		bool shift = (m_mod_flags & MOD_SHIFT) && m_allow_caps; // get if shift pressed
 		unsigned char c = ev.keyboard.keycode;
 
 		if (c <= ALLEGRO_KEY_Z)
 		{
 			c = letters[c];
 
-			if (char(shift) & m_input_flags) c = toupper(c);
+			if (shift) c = toupper(c); // Keep an eye on this, formerly (char(shift) & m_input_flags)
 
 			stringPushBack(c);
 		}
 		else if (c <= ALLEGRO_KEY_PAD_9)
 		{
-			if (c <= ALLEGRO_KEY_9 && shift && INPUT_ALLOW_SPECIALS & m_input_flags)
+			if (c <= ALLEGRO_KEY_9 && shift && m_allow_specials)
 			{
 				c += 10; // if shift, increase number row to special characters
 				stringPushBack(letters[c]);
 			}
-			else if (c >= ALLEGRO_KEY_PAD_0 && INPUT_ALLOW_NUMBERS & m_input_flags)
+			else if (c >= ALLEGRO_KEY_PAD_0 && m_allow_digits)
 			{
 				c -= 10; // If key pad is used, shrink to number row
 				stringPushBack(letters[c]);
 			}
-			else if (INPUT_ALLOW_NUMBERS & m_input_flags)
+			else if (m_allow_digits)
 			{
 				stringPushBack(letters[c]);
 			}
@@ -203,16 +202,16 @@ void InputHandler::handleTextInput(const ALLEGRO_EVENT &ev)
 			switch (c)
 			{
 			case ALLEGRO_KEY_FULLSTOP:
-				if (INPUT_ALLOW_SPECIALS & m_input_flags) stringPushBack('.');
+				if (m_allow_specials) stringPushBack('.');
 				break;
 			case ALLEGRO_KEY_SPACE:
-				if (INPUT_ALLOW_SPACE & m_input_flags) stringPushBack(' ');
+				if (m_allow_space) stringPushBack(' ');
 				break;
 			case ALLEGRO_KEY_ENTER:
-				if (INPUT_ALLOW_NEWLINE & m_input_flags) stringPushBack('\n');
+				if (m_allow_newline) stringPushBack('\n');
 				break;
 			case ALLEGRO_KEY_COMMA:
-				if (INPUT_ALLOW_SPECIALS & m_input_flags) stringPushBack(',');
+				if (m_allow_specials) stringPushBack(',');
 				break;
 			default:
 				break;
@@ -221,27 +220,51 @@ void InputHandler::handleTextInput(const ALLEGRO_EVENT &ev)
 	}
 }
 
-void InputHandler::setInputString(std::string &in_string, unsigned short max_length, short flags)
+void InputHandler::enableTextInput(unsigned max_length, bool allow_caps, bool allow_newline,
+	bool allow_digits, bool allow_specials, bool allow_space)
 {
-	m_input_flags = flags;
-	input_string = &in_string;
-	max_input_length = max_length;
+	m_max_input_length = max_length;
+	m_allow_caps = allow_caps;
+	m_allow_newline = allow_newline;
+	m_allow_digits = allow_digits;
+	m_allow_specials = allow_specials;
+	m_allow_space = allow_space;
+
+	m_text_input_enabled = true;
+
+	clearInputString();
+}
+
+void InputHandler::disableTextInput()
+{
+	m_text_input_enabled = false;
+}
+
+std::string InputHandler::getTextInput()
+{
+	return m_input_string;
+}
+
+void InputHandler::setInputString(const std::string &str)
+{
+	if (str.size() <= m_max_input_length)
+	{
+		m_input_string = str;
+	}
+	else
+	{
+		m_input_string = str.substr(0, m_max_input_length);
+	}
 }
 
 void InputHandler::clearInputString(void)
 {
-	*input_string = "";
-}
-
-void InputHandler::stopInputString()
-{
-	max_input_length = 0;
-	input_string = nullptr;
+	m_input_string = "";
 }
 
 bool InputHandler::isKeyPressed(const int key, const char &mod) const
 {
-	if (al_key_down(&cur_key_state, key) && !al_key_down(&prev_key_state, key))
+	if (al_key_down(&m_cur_key_state, key) && !al_key_down(&m_prev_key_state, key))
 	{
 		if (mod == MOD_IGNORE || mod == m_mod_flags) return true;
 	}
@@ -250,7 +273,7 @@ bool InputHandler::isKeyPressed(const int key, const char &mod) const
 }
 bool InputHandler::isKeyReleased(const int key, const char &mod) const
 {
-	if (al_key_down(&prev_key_state, key) && !al_key_down(&cur_key_state, key))
+	if (al_key_down(&m_prev_key_state, key) && !al_key_down(&m_cur_key_state, key))
 	{
 		if (mod == MOD_IGNORE || mod == m_mod_flags) return true;
 	}
@@ -259,7 +282,7 @@ bool InputHandler::isKeyReleased(const int key, const char &mod) const
 }
 bool InputHandler::isKeyDown(const int key, const char &mod) const
 {
-	if (al_key_down(&cur_key_state, key))
+	if (al_key_down(&m_cur_key_state, key))
 	{
 		if (mod == MOD_IGNORE || mod == m_mod_flags) return true;
 	}
@@ -269,7 +292,7 @@ bool InputHandler::isKeyDown(const int key, const char &mod) const
 
 bool InputHandler::isMousePressed(const int button, const char &mod) const
 {
-	if (al_mouse_button_down(&cur_mouse_state, button) && !al_mouse_button_down(&prev_mouse_state, button))
+	if (al_mouse_button_down(&m_cur_mouse_state, button) && !al_mouse_button_down(&m_prev_mouse_state, button))
 	{
 		if (mod == MOD_IGNORE || mod == m_mod_flags) return true;
 	}
@@ -278,7 +301,7 @@ bool InputHandler::isMousePressed(const int button, const char &mod) const
 }
 bool InputHandler::isMouseReleased(const int button, const char &mod) const
 {
-	if (al_mouse_button_down(&prev_mouse_state, button) && !al_mouse_button_down(&cur_mouse_state, button))
+	if (al_mouse_button_down(&m_prev_mouse_state, button) && !al_mouse_button_down(&m_cur_mouse_state, button))
 	{
 		if (mod == MOD_IGNORE || mod == m_mod_flags) return true;
 	}
@@ -287,7 +310,7 @@ bool InputHandler::isMouseReleased(const int button, const char &mod) const
 }
 bool InputHandler::isMouseDown(const int button, const char &mod) const
 {
-	if (al_mouse_button_down(&cur_mouse_state, button))
+	if (al_mouse_button_down(&m_cur_mouse_state, button))
 	{
 		if (mod == MOD_IGNORE || mod == m_mod_flags) return true;
 	}
@@ -297,7 +320,7 @@ bool InputHandler::isMouseDown(const int button, const char &mod) const
 
 bool InputHandler::isMouseWheelDown(const char &mod) const
 {
-	if (cur_mouse_state.z < prev_mouse_state.z && (mod == MOD_IGNORE || mod == m_mod_flags))
+	if (m_cur_mouse_state.z < m_prev_mouse_state.z && (mod == MOD_IGNORE || mod == m_mod_flags))
 	{
 		return true;
 	}
@@ -305,7 +328,7 @@ bool InputHandler::isMouseWheelDown(const char &mod) const
 }
 bool InputHandler::isMouseWheelUp(const char &mod) const
 {
-	if (cur_mouse_state.z > prev_mouse_state.z && (mod == MOD_IGNORE || mod == m_mod_flags))
+	if (m_cur_mouse_state.z > m_prev_mouse_state.z && (mod == MOD_IGNORE || mod == m_mod_flags))
 	{
 		return true;
 	}
@@ -314,13 +337,13 @@ bool InputHandler::isMouseWheelUp(const char &mod) const
 
 int InputHandler::getMouseX(void) const
 {
-	return cur_mouse_state.x;
+	return m_cur_mouse_state.x;
 }
 int InputHandler::getMouseY(void) const
 {
-	return cur_mouse_state.y;
+	return m_cur_mouse_state.y;
 }
 bool InputHandler::isMouseInWindow(void) const
 {
-	return (cur_mouse_state.display == al_get_current_display());
+	return (m_cur_mouse_state.display == al_get_current_display());
 }

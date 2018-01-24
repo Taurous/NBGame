@@ -140,5 +140,8 @@
     <ClInclude Include="include\StoryNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Util\Util.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

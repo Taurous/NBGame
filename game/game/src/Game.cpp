@@ -23,9 +23,8 @@ int Game::run()
 {
 	bool exit = false;
 	bool redraw = true;
-	std::string in_string;
 
-	m_input.setInputString(in_string, 30, axe::INPUT_ALLOW_SPACE | axe::INPUT_ALLOW_NUMBERS);
+	m_input.enableTextInput(64, true, false, false, false, true);
 
 	m_events.startTimer();
 	while (!exit)
@@ -44,7 +43,7 @@ int Game::run()
 			}
 			else if (m_input.isKeyPressed(ALLEGRO_KEY_ENTER))
 			{
-				m_nodes.handleInput(in_string);
+				m_nodes.handleInput(m_input.getTextInput());
 				m_input.clearInputString();
 
 				m_nodes.cleanNodeList();
@@ -64,7 +63,7 @@ int Game::run()
 
 		if (m_events.eventQueueEmpty() && redraw)
 		{
-			m_draw.drawTextWithCursor(fn, al_map_rgb(0, 255, 0), 16, 16, 0, axe::m_secs(100), 30, in_string);
+			m_draw.drawTextWithCursor(fn, al_map_rgb(0, 255, 0), 16, 16, 0, axe::m_secs(100), 30, m_input.getTextInput());
 
 			m_draw.flipAndClear(al_map_rgb(0, 0, 0));
 			redraw = false;
@@ -72,9 +71,4 @@ int Game::run()
 	}
 
 	return 0;
-}
-
-void Game::destroy()
-{
-
 }

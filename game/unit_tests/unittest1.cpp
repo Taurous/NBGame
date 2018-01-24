@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "../game/include/Util/Util.h"
-
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace unit_tests
@@ -11,24 +9,9 @@ namespace unit_tests
 	{
 	public:
 		
-		TEST_METHOD(TestBitSet)
+		TEST_METHOD(TestMethod1)
 		{
-			int bitfield = 0;
-			int expected = 0b0010;
 
-			axe::setBit(bitfield, 0b0010, true);
-
-			Assert::AreEqual(expected, bitfield);
-		}
-
-		TEST_METHOD(TestBitGet)
-		{
-			int bitfield = 0b0100;
-			bool expected = true;
-
-			bool result = axe::getBit(bitfield, 0b0100);
-
-			Assert::AreEqual(expected, result);
 		}
 
 	};

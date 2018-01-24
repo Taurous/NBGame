@@ -19,9 +19,7 @@ public:
 	Game();
 	~Game();
 
-	int init();
 	int run();
-	void destroy();
 
 private:
 	axe::InputHandler m_input;

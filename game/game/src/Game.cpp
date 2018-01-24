@@ -24,7 +24,11 @@ int Game::run()
 	bool exit = false;
 	bool redraw = true;
 
-	m_input.enableTextInput(64, true, false, false, false, true);
+	const int INPUT_LENGTH = 32;
+
+	m_input.enableTextInput(INPUT_LENGTH, true, false, false, false, true);
+
+	m_input.setInputString("Enter text here...");
 
 	m_events.startTimer();
 	while (!exit)
@@ -63,7 +67,7 @@ int Game::run()
 
 		if (m_events.eventQueueEmpty() && redraw)
 		{
-			m_draw.drawTextWithCursor(fn, al_map_rgb(0, 255, 0), 16, 16, 0, axe::m_secs(100), 30, m_input.getTextInput());
+			m_draw.drawTextWithCursor(fn, al_map_rgb(0, 255, 0), 16, 16, axe::TEXT_JITTER, axe::m_secs(200), INPUT_LENGTH, m_input.getTextInput());
 
 			m_draw.flipAndClear(al_map_rgb(0, 0, 0));
 			redraw = false;

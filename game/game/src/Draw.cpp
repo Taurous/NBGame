@@ -17,8 +17,8 @@ namespace axe
 			for (unsigned int i = 0; i < text.size(); ++i)
 			{
 				char c = text[i];
-				float x_jitter = float(rand() % 101 - 50) / 25.f;
-				float y_jitter = float(rand() % 101 - 50) / 25.f;
+				float x_jitter = float(rand() % 101 - 50) / 30.f;
+				float y_jitter = float(rand() % 101 - 50) / 30.f;
 				if (f)
 				{
 					al_draw_text(f, cl, x + char_width + x_jitter, y + y_jitter, flags, &c);

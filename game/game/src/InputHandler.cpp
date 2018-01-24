@@ -167,7 +167,7 @@ void InputHandler::getInput(const ALLEGRO_EVENT &ev)
 
 void InputHandler::handleTextInput(const ALLEGRO_EVENT &ev)
 {
-	if (m_text_input_enabled)
+	if (m_text_input_enabled && m_input_string.size() < m_max_input_length)
 	{
 		bool shift = (m_mod_flags & MOD_SHIFT) && m_allow_caps; // get if shift pressed
 		unsigned char c = ev.keyboard.keycode;

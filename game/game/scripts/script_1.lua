@@ -1,19 +1,27 @@
 function func()
-	print("Loaded Story Node " .. node_id .. "\n")
+	print("Loaded Story Node " .. node_id .. ".")
 end
 
 function interpret(str)
+	print("You entered: " .. str .. ".")
+	
+	v = nil
+	
 	if (str == "up") then
-		return 2
+		v = 2
 	elseif (str == "left") then
-		return 3
+		v = 3
 	elseif (str == "right") then
-		return 4
+		v = 4
 	elseif (str == "down") then
-		return 5
+		v = 5
 	elseif (str == "butts") then
-		return 69
+		v = 69
+	end
+	
+	if (v ~= nil) then
+		print("The next node is " .. v .. ".")
 	else
-		return nil
+		print("That is not an option.\n")
 	end
 end

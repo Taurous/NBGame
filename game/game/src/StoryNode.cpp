@@ -42,11 +42,7 @@ void StoryNode::handleInput(std::string s)
 		return;
 	}
 
-	if (lua_isnil(L, -1))
-	{
-		std::cout << "That is not an option. Try again." << std::endl;
-	}
-	else
+	if (!lua_isnil(L, -1))
 	{
 		int i = lua_tonumber(L, -1);
 

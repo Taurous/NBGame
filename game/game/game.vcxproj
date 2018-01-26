@@ -155,6 +155,7 @@
     <ClCompile Include="src\InputHandler.cpp" />
     <ClCompile Include="src\LuaUtil.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MenuState.cpp" />
     <ClCompile Include="src\NodeManager.cpp" />
     <ClCompile Include="src\ResourceTypes.cpp" />
     <ClCompile Include="src\SettingsHandler.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\InputHandler.h" />
     <ClInclude Include="include\LuaUtil.h" />
+    <ClInclude Include="include\MenuState.h" />
     <ClInclude Include="include\NodeManager.h" />
     <ClInclude Include="include\ResourceManager.h" />
     <ClInclude Include="include\ResourceTypes.h" />

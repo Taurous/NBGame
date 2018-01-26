@@ -86,7 +86,6 @@ namespace axe
 			{
 				if (m_resources[i] != nullptr)
 				{
-					printf("Destroying %s\n", m_resources[i]->getName().c_str());
 					if (m_resources[i]->isLoaded())
 					{
 						m_resources[i]->destroy();
@@ -189,9 +188,8 @@ namespace axe
 	{
 		for (unsigned int i = 1; i < m_resources.size(); ++i)
 		{
-			if (m_resources[i]->isUnreferenced())
+			if (m_resources[i]->isUnreferenced() && m_resources[i]->isLoaded())
 			{
-				printf("Destroying %s\n", m_resources[i]->getName().c_str());
 				m_unused_handles.push(i);
 				m_resources[i]->destroy();
 				m_resources[i]->setID(EMPTY_RESOURCE_);

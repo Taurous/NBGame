@@ -1,6 +1,7 @@
 #include "..\include\SplashState.h"
 
 #include "StateManager.h"
+#include "..\include\MenuState.h"
 
 const axe::m_secs fade_in_time(1000);
 const axe::m_secs wait_time(2000);
@@ -33,23 +34,14 @@ void SplashState::resume()
 
 void SplashState::handleEvents()
 {
-	if (m_input.isKeyPressed(ALLEGRO_KEY_ESCAPE))
+	if (m_input.isMousePressed(axe::MOUSE_LEFT) || m_input.isKeyPressed(ALLEGRO_KEY_ENTER))
 	{
-		m_states.quit();
-	}
-	else if (m_input.isMousePressed(axe::MOUSE_LEFT))
-	{
-		//m_states.changeState(std::unique_ptr<MenuState>(m_states, m_input, m_events, m_draw));
-	}
-	else if (m_input.isMousePressed(axe::MOUSE_LEFT))
-	{
-		printf("Mouse Left Pressed\n");
+		m_states.changeState(std::unique_ptr<AbstractState>(new MenuState(m_states, m_input, m_events, m_draw)));
 	}
 
 	if (m_timer.elapsed() > total_time + (wait_time*0.75))
 	{
-		//m_states.quit();
-		//m_states.changeState(std::unique_ptr<MenuState>(m_states, m_input, m_events, m_draw));
+		m_states.changeState(std::unique_ptr<AbstractState>(new MenuState(m_states, m_input, m_events, m_draw)));
 	}
 }
 

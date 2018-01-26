@@ -2,104 +2,98 @@
 
 using namespace axe;
 
-StateManager::StateManager() : v_draw_all(false), v_running(true), v_res(false) {}
+StateManager::StateManager() : m_draw_all(false), m_running(true), m_res(false) {}
 
-void StateManager::cleanUp()
+axe::StateManager::~StateManager()
 {
-	while (!states.empty()) {
-		states.back()->cleanUp();
-		delete states.back();
-		states.pop_back();
+	cleanStates();
+	while (!m_states.empty()) {
+		m_states.pop_back();
 	}
 }
 
-void StateManager::changeState(AbstractState *state)
+void StateManager::changeState(std::unique_ptr<AbstractState> state)
 {
-	if (!states.empty()) {
-		deadStates.push_back(states.back());
-		states.pop_back();
+	if (!m_states.empty()) {
+		m_dead_states.push_back(std::move(m_states.back()));
+		m_states.pop_back();
 	}
 
-	states.push_back(state);
-	states.back()->init();
+	m_states.push_back(std::move(state));
 }
 
-void StateManager::pushState(AbstractState *state)
+void StateManager::pushState(std::unique_ptr<AbstractState> state)
 {
-	if (!states.empty()) {
-		states.back()->pause();
+	if (!m_states.empty()) {
+		m_states.back().get()->pause();
 	}
 
-	states.push_back(state);
-	states.back()->init();
+	m_states.push_back(std::move(state));
 }
 
 void StateManager::popState()
 {
-	if (!states.empty()) {
-		deadStates.push_back(states.back());
-		states.pop_back();
-		if (states.empty())
+	if (!m_states.empty()) {
+		m_dead_states.push_back(std::move(m_states.back()));
+		m_states.pop_back();
+		if (m_states.empty())
 		{
-			axe::log(axe::LOGGER_WARNING, "Trying to pop states, no states exist.\n");
+			axe::log(axe::LOGGER_WARNING, "Trying to pop a state, no states exist.\n");
 		}
-		else states.back()->resume();
+		else m_states.back().get()->resume();
 	}
 }
-void StateManager::popState(int _FLAG, AbstractState *st)
+void StateManager::popState(int _FLAG, std::unique_ptr<AbstractState> state)
 {
-	if (!states.empty()) {
-		deadStates.push_back(states.back());
-		states.pop_back();
+	if (!m_states.empty()) {
+		m_dead_states.push_back(std::move(m_states.back()));
+		m_states.pop_back();
 
 		switch (_FLAG)
 		{
 		case STATE_CHANGE:
-			changeState(st);
+			changeState(std::move(state));
 			break;
 		case STATE_PUSH:
-			pushState(st);
+			pushState(std::move(state));
 			break;
 		case STATE_POP:
 			popState();
 			break;
 		default:
 			axe::log(LOGGER_ERROR, "Incorrect flag pass to popState()! Destroying state.\n");
-			st->cleanUp();
-			delete st;
+			// Need to make sure that "state" is destroyed when this function ends.
 			break;
 		}
 	}
 }
 
-void StateManager::handleEvents(InputHandler &input, EventHandler &events)
+void StateManager::handleEvents()
 {
-	states.back()->handleEvents(input, events);
+	m_states.back()->handleEvents();
 }
 
-void StateManager::update(InputHandler &input)
+void StateManager::update()
 {
-	states.back()->update(input);
+	m_states.back()->update();
 }
 
-void StateManager::draw(DrawEngine &draw)
+void StateManager::draw()
 {
-	if (v_draw_all)
+	if (m_draw_all)
 	{
-		for (AbstractState *s : states) //Draw All!
+		for (auto const &ss : m_states) //Draw All!
 		{
-			s->draw(draw);
+			ss.get()->draw();
 		}
 	}
-	else states.back()->draw(draw); // Draw Back!
+	else m_states.back()->draw(); // Draw Back!
 }
 
 void StateManager::cleanStates()
 {
-	while (!deadStates.empty())
+	while (!m_dead_states.empty())
 	{
-		deadStates.back()->cleanUp();
-		delete deadStates.back();
-		deadStates.pop_back();
+		m_dead_states.pop_back();
 	}
 }

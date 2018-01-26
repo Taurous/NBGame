@@ -19,7 +19,7 @@ public:
 	Game();
 	~Game();
 
-	int run();
+	void run();
 
 private:
 	axe::InputHandler m_input;
@@ -29,7 +29,7 @@ private:
 
 	NodeManager m_nodes;
 
-	axe::ResourceHandle<axe::Font> fn;
+	//axe::ResourceHandle<axe::Font> fn;
 };
 
 //Class MyClass

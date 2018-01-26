@@ -43,6 +43,7 @@ namespace axe
 		void drawBitmap(ResourceHandle<Bitmap> bmp, int x, int y, int flags);
 		void drawScaledBitmap(ResourceHandle<Bitmap> bmp, int x, int y, float x_scale, float y_scale, int flags);
 		void drawScaledBitmap(ResourceHandle<Bitmap> bmp, int x, int y, int width, int height, int flags);
+		void drawTintedBitmap(ResourceHandle<Bitmap> bmp, ALLEGRO_COLOR cl, int x, int y, int flags);
 
 		int formatStringByWidth(const ResourceHandle<Font> &font, int max_string_width, std::string &str); // returns number of rows of text after formatting
 

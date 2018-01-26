@@ -1,5 +1,9 @@
 #pragma once
 
+#include <inttypes.h>
+#include <vector>
+#include <memory>
+
 #include "Util\Logger.h"
 
 #include "DrawEngine.h"
@@ -8,12 +12,11 @@
 
 #include "AbstractState.h"
 
-#include <inttypes.h>
-#include <vector>
-
 /*
 *	Note to self, need to remove the ability
 *	to pop states until the list is empty.
+
+What the hell did I mean by this?
 */
 
 
@@ -30,34 +33,31 @@ namespace axe
 	{
 	public:
 		StateManager();
-		~StateManager() { cleanUp(); }
+		~StateManager();
 
-		void init();
-		void cleanUp();
-
-		void changeState(AbstractState *state); // MUST CALL LAST
-		void pushState(AbstractState *state);
+		void changeState(std::unique_ptr<AbstractState> state);
+		void pushState(std::unique_ptr<AbstractState> state);
 		void popState();
-		void popState(int _FLAG, AbstractState *st);
+		void popState(int flag, std::unique_ptr<AbstractState> state);
 
 		void cleanStates();
 
-		void handleEvents(InputHandler &input, EventHandler &events);
-		void update(InputHandler &input);
-		void draw(DrawEngine &draw);
+		void handleEvents();
+		void update();
+		void draw();
 
-		void setDrawAll(bool flag) { v_draw_all = flag; }
+		void setDrawAll(bool flag) { m_draw_all = flag; }
 
-		bool running() { return v_running; }
-		void quit() { v_running = false; }
+		bool running() const { return m_running; }
+		void quit() { m_running = false; }
 
 	private:
-		bool v_running;
-		bool v_res;
-		bool v_draw_all;
+		bool m_running;
+		bool m_res;
+		bool m_draw_all;
 
-		std::vector<AbstractState*> states;
-		std::vector<AbstractState*> deadStates;
+		std::vector<std::unique_ptr<AbstractState>> m_states;
+		std::vector<std::unique_ptr<AbstractState>> m_dead_states;
 	};
 
 }

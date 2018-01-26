@@ -152,6 +152,11 @@ namespace axe
 		al_draw_scaled_bitmap(bitmaps[bmp]->getData(), 0, 0, w, h, x, y, width, height, flags);
 	}
 
+	void DrawEngine::drawTintedBitmap(ResourceHandle<Bitmap> bmp, ALLEGRO_COLOR cl, int x, int y, int flags)
+	{
+		al_draw_tinted_bitmap(bitmaps[bmp]->getData(), cl, x, y, flags);
+	}
+
 	void DrawEngine::flipAndClear(ALLEGRO_COLOR cl)
 	{
 		al_flip_display();

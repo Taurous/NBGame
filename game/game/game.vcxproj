@@ -159,6 +159,7 @@
     <ClCompile Include="src\ResourceTypes.cpp" />
     <ClCompile Include="src\SettingsHandler.cpp" />
     <ClCompile Include="src\SoundManager.cpp" />
+    <ClCompile Include="src\SplashState.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\StoryNode.cpp" />
     <ClCompile Include="src\Util\FPS.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="include\ResourceTypes.h" />
     <ClInclude Include="include\SettingsHandler.h" />
     <ClInclude Include="include\SoundManager.h" />
+    <ClInclude Include="include\SplashState.h" />
     <ClInclude Include="include\StateManager.h" />
     <ClInclude Include="include\StoryNode.h" />
     <ClInclude Include="include\Util\FPS.h" />

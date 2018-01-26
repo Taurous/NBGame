@@ -48,7 +48,7 @@ void SplashState::handleEvents()
 
 	if (m_timer.elapsed() > total_time + (wait_time*0.75))
 	{
-		m_states.quit();
+		//m_states.quit();
 		//m_states.changeState(std::unique_ptr<MenuState>(m_states, m_input, m_events, m_draw));
 	}
 }

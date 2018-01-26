@@ -11,8 +11,6 @@ namespace axe
 		,	m_display(nullptr)
 		,	m_event_queue(nullptr)
 		,	m_icon(nullptr)
-		,	m_monitor_info(nullptr)
-		,	m_display_mode(nullptr)
 		,	m_current_display_mode(0)
 	{
 		
@@ -20,9 +18,6 @@ namespace axe
 
 	Window::~Window()
 	{
-		delete[] m_monitor_info;
-		delete[] m_display_mode;
-
 		if (m_icon) al_destroy_bitmap(m_icon);
 		if (m_display) al_destroy_display(m_display);
 
@@ -38,51 +33,35 @@ namespace axe
 		m_icon_path = icon_path;
 		m_flags = flags;
 
-		int num_display_adapters = al_get_num_video_adapters();
-		m_monitor_info = new ALLEGRO_MONITOR_INFO[num_display_adapters];
-		printf("\nNumber of display adapters detected: %i\n", num_display_adapters);
-		for (int i = 0; i < num_display_adapters; ++i)
-		{
-			al_get_monitor_info(i, &m_monitor_info[i]);
-			int x = m_monitor_info[i].x1;
-			int y = m_monitor_info[i].y1;
-			int w = m_monitor_info[i].x2 - m_monitor_info[i].x1;
-			int h = m_monitor_info[i].y2 - m_monitor_info[i].y1;
-			printf("Monitor %i Resolution: %ix%i", i, w-x, h-y);
-		}
-		printf("\n");
+		//Removing ability to detect multiple displays for now.
 
-		int num_display_modes = al_get_num_display_modes();
-		m_display_mode = new ALLEGRO_DISPLAY_MODE[num_display_modes];
+		al_get_monitor_info(0, &m_monitor_info); // Get Monitor dimensions
+
+		int num_display_modes = al_get_num_display_modes(); // Get number of different display resolutions and bitrates
 		for (int i = 0; i < num_display_modes; ++i)
 		{
-			al_get_display_mode(i, &m_display_mode[i]);
+			ALLEGRO_DISPLAY_MODE disp_mode;
+			al_get_display_mode(i, &disp_mode);
+			m_display_modes.push_back(disp_mode);
 		}
 
-		//printDisplayModes();
+		printDisplayModes();
 
 		createWindow();
 	}
 
 	void Window::printDisplayModes()
 	{
-		int num_display_modes = al_get_num_display_modes();
-		for (int i = 0; i < num_display_modes; i += 2)
+		int i = 0;
+		for (const auto &mode : m_display_modes)
 		{
-			// Redo display mode printing
-			if (i + 1 < num_display_modes)
-			{
-				printf("Display Mode %02i:\t\t\t\t\tDisplay Mode %02i:\n", i, i + 1);
-				printf("\tFormat: %i\t\t\t\t\tFormat: %i\n", m_display_mode[i].format, m_display_mode[i + 1].format);
-				printf("\tRefresh Rate: %i\t\t\t\tRefresh Rate: %i\n", m_display_mode[i].refresh_rate, m_display_mode[i + 1].refresh_rate);
-				printf("\tResolution: %ix%i\t\t\t\tResolution: %ix%i\n\n", m_display_mode[i].width, m_display_mode[i].height, m_display_mode[i + 1].width, m_display_mode[i + 1].height);
-			}
-			else
-			{
-				printf("Display Mode %i:\n\tformat: %i\n\trefresh rate: %i\n\tresolution: %ix%i\n", i, m_display_mode[i].format, m_display_mode[i].refresh_rate, m_display_mode[i].width, m_display_mode[i].height);
-			}
+			printf("Display Mode %i\n", i);
+			printf("Resolution: %ix%i\n", mode.width, mode.height);
+			printf("Aspect Ratio: %.3f\n", float(mode.width) / float(mode.height));
+			printf("Format: %i\n", mode.format);
+			printf("Refresh Rate: %i\n\n", mode.refresh_rate);
+			++i;
 		}
-		printf("\n");
 	}
 
 	void Window::createWindow()
@@ -99,6 +78,8 @@ namespace axe
 		m_width = al_get_display_width(m_display); // Get actual display resoltuion (if created with ALLEGRO_FULLSCREEN_WINDOW, passed in resolution is ignored and window is set to size of desktop)
 		m_height = al_get_display_height(m_display);
 	
+		centerWindow();
+
 		setWindowTitle(m_title);
 		setWindowIcon(m_icon_path);
 	}
@@ -136,6 +117,6 @@ namespace axe
 
 	void Window::centerWindow(void)
 	{
-		al_set_window_position(m_display, al_get_display_width(m_display) / 2 - m_width / 2, al_get_display_height(m_display) / 2 - m_height / 2);
+		al_set_window_position(m_display, getScreenWidth() / 2 - m_width / 2, getScreenHeight() / 2 - m_height / 2);
 	}
 }

@@ -30,8 +30,8 @@ namespace axe
 		void handleEvents(const ALLEGRO_EVENT &ev);
 
 		Window &getWindow() { return m_window; }
-		int getWindowWidth() { return m_window.getScreenWidth(); }
-		int getWindowHeight() { return m_window.getScreenHeight(); }
+		int getWindowWidth() { return m_window.getWindowWidth(); }
+		int getWindowHeight() { return m_window.getWindowHeight(); }
 		bool getWindowFullscreen() { return m_window.getFullscreen(); }
 
 		void drawText(ResourceHandle<Font> font, ALLEGRO_COLOR cl, float x, float y, int flags, std::string text);

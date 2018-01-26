@@ -33,6 +33,13 @@ namespace axe
 	{
 	public:
 		StateManager();
+
+		StateManager(const StateManager &other) = delete;
+		StateManager &operator=(const StateManager &other) = delete;
+
+		StateManager(StateManager &&other) = delete;
+		StateManager &operator=(StateManager &&other) = delete;
+
 		~StateManager();
 
 		void changeState(std::unique_ptr<AbstractState> state);

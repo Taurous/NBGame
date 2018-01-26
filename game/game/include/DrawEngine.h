@@ -24,6 +24,13 @@ namespace axe
 	{
 	public:
 		DrawEngine();
+
+		DrawEngine(const DrawEngine &other) = delete;
+		DrawEngine& operator=(const DrawEngine &other) = delete;
+
+		DrawEngine(DrawEngine &&other) = delete;
+		DrawEngine& operator=(DrawEngine &&other) = delete;
+
 		~DrawEngine();
 
 		void createWindow(int width, int height, std::string title, std::string icon_path = "", int flags = ALLEGRO_WINDOWED);

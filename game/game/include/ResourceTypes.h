@@ -40,6 +40,7 @@ namespace axe
 		void setName(const std::string name) { m_name = name; }
 
 		void incRef() { m_refs++; }
+		unsigned short getNumRefs() const { return m_refs; }
 		void decRef() {
 			m_refs--;
 			if (m_refs < 0) axe::log(LOGGER_WARNING, "Resource reference dropping below 0! Ref Count: %i, Name: %s\n", m_refs, m_name);

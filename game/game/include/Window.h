@@ -11,6 +11,13 @@ namespace axe
 	{
 	public:
 		Window();
+
+		Window(const Window &other) = delete;
+		Window &operator=(const Window &other) = delete;
+
+		Window(Window &&other) = delete;
+		Window &operator=(Window &&other) = delete;
+
 		~Window();
 
 		void create(int width, int height, std::string title, std::string icon_path = "", int flags = ALLEGRO_WINDOWED);

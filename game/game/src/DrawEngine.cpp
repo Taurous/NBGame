@@ -19,8 +19,7 @@ DrawEngine::DrawEngine()
 
 DrawEngine::~DrawEngine()
 {
-	bitmaps.cleanUp();
-	fonts.cleanUp();
+	
 }
 
 void DrawEngine::createWindow(int width, int height, std::string title, std::string icon_path, int flags)

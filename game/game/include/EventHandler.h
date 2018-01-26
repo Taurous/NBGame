@@ -16,6 +16,13 @@ namespace axe
 	{
 	public:
 		EventHandler(int engine_speed);
+
+		EventHandler(const EventHandler &other) = delete;
+		EventHandler &operator=(const EventHandler &other) = delete;
+
+		EventHandler(EventHandler &&other) = delete;
+		EventHandler &operator=(EventHandler && other) = delete;
+		
 		~EventHandler(void);
 
 		bool handleEvents(void);

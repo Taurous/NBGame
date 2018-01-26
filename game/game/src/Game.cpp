@@ -45,6 +45,8 @@ void Game::run()
 			else if (m_events.eventIs(ALLEGRO_EVENT_TIMER))
 			{
 				m_states.update();
+				m_draw.bitmaps.removeUnreferencedResources();
+				m_draw.fonts.removeUnreferencedResources();
 				redraw = true;
 			}
 			else if (m_input.isKeyPressed(ALLEGRO_KEY_ENTER))

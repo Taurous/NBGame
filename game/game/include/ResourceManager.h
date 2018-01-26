@@ -1,20 +1,5 @@
 #pragma once
 
-/*********************************************************/
-//	Resource Manager Class
-//
-//	
-//
-//
-//
-//
-//
-//
-/*********************************************************/
-
-
-#include "ResourceTypes.h"
-
 #include <string>
 #include <vector>
 #include <stack>
@@ -22,6 +7,8 @@
 #include <type_traits>
 #include <memory>
 #include <functional>
+
+#include "ResourceTypes.h"
 
 namespace axe
 {
@@ -32,16 +19,27 @@ namespace axe
 	{
 		static_assert(std::is_base_of<ResourceBase, T>::value, "Type must be derived from ResourceBase!");
 		ResourceHandle() : resource(nullptr) { }
+
 		ResourceHandle(T *r) : resource(r)
 		{
 			resource->incRef();
 		}
 		ResourceHandle(const ResourceHandle &r)
 		{
-			this->resource = r.resource;
+			resource = r.resource;
 			resource->incRef();
 		}
-		~ResourceHandle() { resource->decRef(); }
+		ResourceHandle &operator=(const ResourceHandle &r)
+		{
+			resource = r.resource;
+			resource->incRef();
+			return *this;
+		}
+
+		~ResourceHandle()
+		{
+			resource->decRef();
+		}
 
 		bool isNull() { return (resource == nullptr); }
 		bool isEmpty() { return (resource->getID() == EMPTY_RESOURCE_); }
@@ -82,13 +80,28 @@ namespace axe
 		ResourceManager& operator=(const ResourceManager&) & = delete;
 		ResourceManager& operator=(ResourceManager&&) & = delete;
 
-		~ResourceManager() { }
+		~ResourceManager()
+		{
+			for (unsigned int i = 0; i < m_resources.size(); ++i)
+			{
+				if (m_resources[i] != nullptr)
+				{
+					printf("Destroying %s\n", m_resources[i]->getName().c_str());
+					if (m_resources[i]->isLoaded())
+					{
+						m_resources[i]->destroy();
+					}
+					delete m_resources[i];
+					m_resources[i] = nullptr;
+				}
+			}
+		}
 
 		void setPathToResources(std::string path) { m_path_to_resources = path; }
 
 		ResourceHandle<T> getResource(const std::string &name);
 		T* operator[](const ResourceHandle<T> &handle);
-		void cleanUp();
+		void removeUnreferencedResources();
 
 	protected:
 
@@ -125,13 +138,13 @@ namespace axe
 					}
 					else
 					{
-						axe::log(LOGGER_ERROR, "Failed to load exsiting resource: %s\n", name);
+						axe::log(LOGGER_ERROR, "Failed to load existing resource: %s\n", name);
 						return ResourceHandle<T>(m_resources[i]);
 					}
 				}
 			}
 		}
-		// Resource with path did not exist, 
+		// Resource with path did not exist, create new resource
 		T *res = new T(short(m_resources.size()), m_path_to_resources, name);
 
 		res->load();
@@ -145,7 +158,7 @@ namespace axe
 
 		ResourceHandle<T> handle(res);
 
-		if (!m_unused_handles.empty()) // Reuse previously created resource, or add new resource to vector
+		if (!m_unused_handles.empty()) // Reuse previously created handle, or add new handle to vector
 		{
 			res->setID(m_unused_handles.top());
 			m_unused_handles.pop();
@@ -172,16 +185,16 @@ namespace axe
 	}
 
 	template <typename T>
-	void ResourceManager<T>::cleanUp()
+	void ResourceManager<T>::removeUnreferencedResources()
 	{
-		for (unsigned int i = 0; i < m_resources.size(); ++i)
+		for (unsigned int i = 1; i < m_resources.size(); ++i)
 		{
 			if (m_resources[i]->isUnreferenced())
 			{
+				printf("Destroying %s\n", m_resources[i]->getName().c_str());
 				m_unused_handles.push(i);
 				m_resources[i]->destroy();
 				m_resources[i]->setID(EMPTY_RESOURCE_);
-				//Untested
 			}
 		}
 	}

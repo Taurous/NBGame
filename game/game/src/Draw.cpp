@@ -43,6 +43,8 @@ namespace axe
 
 	void DrawEngine::drawTextWithCursor(ResourceHandle<Font> font, ALLEGRO_COLOR cl, float x, float y, int flags, m_secs speed, unsigned int string_length, std::string text)
 	{
+		if (!font) return;
+
 		drawText(font, cl, x, y, flags, text);
 
 		if (t_cursorFlash.elapsed() >= speed * 2)

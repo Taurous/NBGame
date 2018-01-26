@@ -23,6 +23,13 @@ namespace axe
 	{
 	public:
 		InputHandler();
+
+		InputHandler(const InputHandler &other) = delete;
+		InputHandler &operator=(const InputHandler &other) = delete;
+
+		InputHandler(InputHandler &&other) = delete;
+		InputHandler &operator=(InputHandler &&other) = delete;
+
 		~InputHandler();
 
 		void getInput(const ALLEGRO_EVENT &ev);

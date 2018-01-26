@@ -28,6 +28,13 @@ void Game::run()
 	//m_input.enableTextInput(INPUT_LENGTH, true, false, false, false, true);
 	//m_input.setInputString("Enter text here...");
 
+	std::vector<axe::ResourceHandle<axe::Bitmap>> bitmaps;
+
+	for (int i = 0; i < 1000; ++i)
+	{
+		bitmaps.push_back(m_draw.bitmaps.getResource("image2.png"));
+	}
+
 	m_states.changeState(std::unique_ptr<axe::AbstractState>(new SplashState(m_states, m_input, m_events, m_draw)));
 
 	m_events.startTimer();
@@ -51,10 +58,10 @@ void Game::run()
 			}
 			else if (m_input.isKeyPressed(ALLEGRO_KEY_ENTER))
 			{
-				m_nodes.handleInput(m_input.getTextInput());
-				m_input.clearInputString();
+				//m_nodes.handleInput(m_input.getTextInput());
+				//m_input.clearInputString();
 
-				m_nodes.cleanNodeList();
+				//m_nodes.cleanNodeList();
 			}
 			else if (m_events.eventIs(axe::GUI_EVENT_BUTTON_PRESSED))
 			{
@@ -67,6 +74,16 @@ void Game::run()
 
 		if (m_events.eventQueueEmpty() && redraw)
 		{
+			al_hold_bitmap_drawing(true);
+			for (int j = 0; j < 6; ++j)
+			{
+				for (int i = 0; i < 10; ++i)
+				{
+					m_draw.drawBitmap(bitmaps[i], i * m_draw.bitmaps[bitmaps[i]]->getWidth(), j * m_draw.bitmaps[bitmaps[i]]->getWidth(), 0);
+				}
+			}
+			al_hold_bitmap_drawing(false);
+
 			m_states.draw();
 
 			//m_draw.drawTextWithCursor(fn, al_map_rgb(0, 255, 0), 16, 16, axe::TEXT_JITTER, axe::m_secs(200), INPUT_LENGTH, m_input.getTextInput());

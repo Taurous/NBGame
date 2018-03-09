@@ -1,3 +1,5 @@
+image_fname = nil --"image1.png"
+
 function func()
 	print("Loaded Story Node " .. node_id .. ".")
 end

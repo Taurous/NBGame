@@ -24,6 +24,10 @@ namespace axe
 				m_height = al_get_bitmap_height(m_data);
 				m_loaded = true;
 			}
+			else
+			{
+				axe::log(LOGGER_WARNING, "Cannot load resource %s%s\n", m_path.c_str(), m_name.c_str());
+			}
 		}
 		else
 		{

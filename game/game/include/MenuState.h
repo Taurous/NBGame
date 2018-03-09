@@ -3,6 +3,8 @@
 #include "AbstractState.h"
 #include "NodeManager.h"
 
+#include <string>
+
 class MenuState : public axe::AbstractState
 {
 public:
@@ -22,4 +24,5 @@ private:
 	NodeManager m_nodes;
 
 	axe::ResourceHandle<axe::Font> fn;
+	axe::ResourceHandle<axe::Bitmap> image;
 };

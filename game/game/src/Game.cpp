@@ -24,6 +24,7 @@ Game::Game() : m_events(ENGINE_SPEED)
 
 	m_draw.fonts.setPathToResources("res/fonts/");
 	m_draw.bitmaps.setPathToResources("res/textures/");
+	// Test change
 }
 
 Game::~Game()

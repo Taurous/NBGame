@@ -17,9 +17,14 @@ void NodeManager::pushNode(int id, int prev_id)
 	node_list.push_back(std::move(node_ptr));
 }
 
-void NodeManager::handleInput(std::string s)
+int NodeManager::getCurrentNodeID()
 {
-	node_list.back()->handleInput(s);
+	return node_list.back()->getID();
+}
+
+int NodeManager::handleInput(std::string s)
+{
+	return node_list.back()->handleInput(s);
 }
 
 void NodeManager::cleanNodeList()
@@ -28,4 +33,9 @@ void NodeManager::cleanNodeList()
 	{
 		node_list.pop_front();
 	}
+}
+
+const std::string & NodeManager::getImagePath()
+{
+	return node_list.back()->getImagePath();
 }

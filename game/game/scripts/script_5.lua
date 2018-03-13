@@ -9,15 +9,15 @@ function interpret(str)
 	
 	if (str == "up") then
 		v = 5
-		print("You move up")
+		print("You cannot go that way.")
 	elseif (str == "left") then
-		v = 2
+		v = 5
 		print("You cannot go that way.")
 	elseif (str == "right") then
-		v = 0
+		v = 1
 		print("You move right.")
 	elseif (str == "down") then
-		v = 7
+		v = 2
 		print("You move down.")
 	end
 	

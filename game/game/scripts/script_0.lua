@@ -8,16 +8,16 @@ function interpret(str)
 	v = nil
 	
 	if (str == "up") then
-		v = 5
-		print("You move up")
+		v = 1
+		print("You move up.")
 	elseif (str == "left") then
 		v = 2
-		print("You cannot go that way.")
+		print("You move left.")
 	elseif (str == "right") then
-		v = 0
+		v = 3
 		print("You move right.")
 	elseif (str == "down") then
-		v = 7
+		v = 4
 		print("You move down.")
 	end
 	

@@ -24,5 +24,4 @@ private:
 	NodeManager m_nodes;
 
 	axe::ResourceHandle<axe::Font> fn;
-	axe::ResourceHandle<axe::Bitmap> image;
 };

@@ -1,3 +1,4 @@
+#include <util\Logger.h>
 #include "Game.h"
 
 int main(int argc, char ** argv)

@@ -1,7 +1,7 @@
-#include "..\include\SplashState.h"
+#include "SplashState.h"
 
 #include "StateManager.h"
-#include "..\include\MenuState.h"
+#include "MenuState.h"
 
 const axe::m_secs fade_in_time(1000);
 const axe::m_secs wait_time(2000);

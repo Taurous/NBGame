@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AbstractState.h"
+#include <AbstractState.h>
 
 class SplashState : public axe::AbstractState
 {

@@ -17,16 +17,15 @@ StoryNode::StoryNode(NodeManager *node_manager, int id, int prev_node) : m_node_
 	{
 		printLuaError(L);
 	}
-	
-	lua_pushinteger(L, id);
-	lua_setglobal(L, "node_id");
 
-	/*lua_getglobal(L, "func");
-	if (lua_pcall(L, 0, 0, 0) != LUA_OK)
+	if (luaL_loadfile(L, "scripts/common.lua") != LUA_OK)
 	{
 		printLuaError(L);
-		lua_pop(L, 1);
-	}*/
+	}
+	else if (lua_pcall(L, 0, 0, 0) != LUA_OK)
+	{
+		printLuaError(L);
+	}
 }
 
 int StoryNode::handleInput(std::string s)
@@ -44,7 +43,15 @@ int StoryNode::handleInput(std::string s)
 	{
 		int i = lua_tonumber(L, -1);
 
-		//std::cout << "The next node's id is: " << i << std::endl;
+		lua_pushinteger(L, i);
+		lua_setglobal(L, "node_id");
+
+		lua_getglobal(L, "func");
+		if (lua_pcall(L, 0, 0, 0) != LUA_OK)
+		{
+			printLuaError(L);
+			lua_pop(L, 1);
+		}
 
 		return i;
 	}

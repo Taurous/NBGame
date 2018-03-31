@@ -2,12 +2,12 @@
 
 #include <allegro5\allegro.h>
 
-#include "InputHandler.h"
-#include "EventHandler.h"
-#include "Window.h"
-#include "DrawEngine.h"
+#include <InputHandler.h>
+#include <EventHandler.h>
+#include <Window.h>
+#include <DrawEngine.h>
 //#include "SoundManager.h"
-#include "StateManager.h"
+#include <StateManager.h>
 
 const int ENGINE_SPEED = 60;
 

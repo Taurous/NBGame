@@ -2,7 +2,7 @@
 
 #include "SplashState.h"
 
-#include "SettingsHandler.h"
+#include <SettingsHandler.h>
 
 Game::Game() : m_events(ENGINE_SPEED)
 {

@@ -1,7 +1,3 @@
-function func()
-	print("Loaded Story Node " .. node_id .. ".")
-end
-
 function interpret(str)
 	--print("You entered: " .. str .. ".")
 	

@@ -1,40 +1,58 @@
 #include "Game.h"
 
-#include "SplashState.h"
+#include <fstream>
+#include "nlohmann\json.hpp"
 
-#include <SettingsHandler.h>
+#include "SplashState.h"
 
 Game::Game() : m_events(ENGINE_SPEED)
 {
-	int windowWidth = 1280;
+	int windowWidth = 1280; // Default Window Size
 	int windowHeight = 768;
 
-	axe::SettingsHandler s;
+	nlohmann::json j;
 
-	s.set("width", windowWidth);
-	s.set("height", windowHeight);
+	std::ifstream in_file("settings.json");
 
-	s.loadSettings(".settings");
+	if (in_file.is_open())
+	{
+		in_file >> j;
 
-	s.get("width", windowWidth);
-	s.get("height", windowHeight);
+		if (j.find("width") != j.end())
+		{
+			windowWidth = j["width"];
+		}
+		if (j.find("width") != j.end())
+		{
+			windowHeight = j["height"];
+		}
 
+		in_file.close();
+	}
 	m_draw.createWindow(windowWidth, windowHeight, "The Game");
 	m_draw.getWindow().registerForEvents(m_events.getEventQueue());
 
 	m_draw.fonts.setPathToResources("res/fonts/");
 	m_draw.bitmaps.setPathToResources("res/textures/");
 	// Test change
+
 }
 
 Game::~Game()
 {
-	axe::SettingsHandler s;
+	nlohmann::json j;
 
-	s.set("width", m_draw.getWindowWidth());
-	s.set("height", m_draw.getWindowHeight());
+	std::ofstream out_file("settings.json");
 
-	s.saveSettings(".settings");
+	if (out_file.is_open())
+	{
+		j["width"] = m_draw.getWindowWidth();
+		j["height"] = m_draw.getWindowHeight();
+		
+		out_file << std::setw(4) << j;
+
+		out_file.close();
+	}
 }
 
 void Game::run()
@@ -58,8 +76,6 @@ void Game::run()
 			else if (m_events.eventIs(ALLEGRO_EVENT_TIMER))
 			{
 				m_states.update();
-				m_draw.bitmaps.removeUnreferencedResources();
-				m_draw.fonts.removeUnreferencedResources();
 				redraw = true;
 			}
 		}

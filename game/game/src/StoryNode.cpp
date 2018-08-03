@@ -30,6 +30,7 @@ StoryNode::StoryNode(NodeManager *node_manager, int id, int prev_node) : m_node_
 
 int StoryNode::handleInput(std::string s)
 {
+	
 	lua_getglobal(L, "interpret");
 	lua_pushstring(L, s.c_str());
 	if (lua_pcall(L, 1, 1, 0) != LUA_OK)
@@ -41,7 +42,7 @@ int StoryNode::handleInput(std::string s)
 
 	if (!lua_isnil(L, -1))
 	{
-		int i = lua_tonumber(L, -1);
+		int i = static_cast<int>(lua_tonumber(L, -1));
 
 		lua_pushinteger(L, i);
 		lua_setglobal(L, "node_id");

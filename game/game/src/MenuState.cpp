@@ -1,11 +1,11 @@
 #include "MenuState.h"
 
-#include "StateManager.h"
+#include "axeLib\StateManager.h"
 
 MenuState::MenuState(axe::StateManager & states, axe::InputHandler & input, axe::EventHandler & events, axe::DrawEngine & draw)
 	: AbstractState(states, input, events, draw), m_nodes(0)
 {
-	m_input.enableTextInput(INPUT_LENGTH, true, false, false, false, true);
+	m_input.enableTextInput(INPUT_LENGTH, false, false, false, false, true);
 	m_input.setInputString("Enter text here...");
 
 	fn = m_draw.fonts.getResource("18-VCR_OSD_MONO_1.ttf");

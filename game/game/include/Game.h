@@ -2,14 +2,12 @@
 
 #include <allegro5\allegro.h>
 
-#include <InputHandler.h>
-#include <EventHandler.h>
-#include <Window.h>
-#include <DrawEngine.h>
-//#include "SoundManager.h"
-#include <StateManager.h>
+#include <axeLib\InputHandler.h>
+#include <axeLib\EventHandler.h>
+#include <axeLib\DrawEngine.h>
+#include <axeLib\StateManager.h>
 
-const int ENGINE_SPEED = 60;
+static const int ENGINE_SPEED = 60;
 
 class Game
 {

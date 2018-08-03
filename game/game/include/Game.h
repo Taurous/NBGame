@@ -7,6 +7,8 @@
 #include <axeLib\DrawEngine.h>
 #include <axeLib\StateManager.h>
 
+#include <iostream>
+
 static const int ENGINE_SPEED = 60;
 
 class Game

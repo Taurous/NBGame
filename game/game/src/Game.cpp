@@ -4,9 +4,48 @@
 #include "nlohmann\json.hpp"
 
 #include "SplashState.h"
+/*
+enum
+{
+	NIL,
+	PRINT_MESSAGE,
+	SET_TEXT,
+	SENTINEL
+};
 
+int FireEvent(lua_State *L)
+{
+	int code = static_cast<int>(lua_tonumber(L, -1));
+	std::string msg = static_cast<std::string>(lua_tostring(L, -1));
+
+	bool found = false;
+
+	switch (code)
+	{
+	case PRINT_MESSAGE:
+		std::cout << msg << std::endl;
+		break;
+	case SET_TEXT:
+		al_emit_user_event()
+	}
+
+	lua_pushboolean(L, found);
+	return 1;
+}
+/**/
 Game::Game() : m_events(ENGINE_SPEED)
 {
+	/*
+	lua_newtable(L);
+
+	lua_pushstring(L, "PRINT_MESSAGE");
+	lua_pushinteger(L, PRINT_MESSAGE);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "SET_TEXT");
+	lua_pushinteger(L, SET_TEXT);
+	lua_settable(L, -3);
+	/**/
 	int windowWidth = 1280; // Default Window Size
 	int windowHeight = 768;
 
@@ -18,12 +57,9 @@ Game::Game() : m_events(ENGINE_SPEED)
 	{
 		in_file >> j;
 
-		if (j.find("width") != j.end())
+		if (j.find("width") != j.end() && j.find("width") != j.end())
 		{
 			windowWidth = j["width"];
-		}
-		if (j.find("width") != j.end())
-		{
 			windowHeight = j["height"];
 		}
 
@@ -34,8 +70,6 @@ Game::Game() : m_events(ENGINE_SPEED)
 
 	m_draw.fonts.setPathToResources("res/fonts/");
 	m_draw.bitmaps.setPathToResources("res/textures/");
-	// Test change
-
 }
 
 Game::~Game()
@@ -48,7 +82,7 @@ Game::~Game()
 	{
 		j["width"] = m_draw.getWindowWidth();
 		j["height"] = m_draw.getWindowHeight();
-		
+
 		out_file << std::setw(4) << j;
 
 		out_file.close();

@@ -169,20 +169,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\LuaUtil.cpp" />
+    <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MenuState.cpp" />
-    <ClCompile Include="src\NodeManager.cpp" />
     <ClCompile Include="src\SplashState.cpp" />
-    <ClCompile Include="src\StoryNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game.h" />
-    <ClInclude Include="include\LuaUtil.h" />
+    <ClInclude Include="include\GameState.h" />
     <ClInclude Include="include\MenuState.h" />
-    <ClInclude Include="include\NodeManager.h" />
     <ClInclude Include="include\SplashState.h" />
-    <ClInclude Include="include\StoryNode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

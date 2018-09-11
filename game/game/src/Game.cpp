@@ -1,71 +1,53 @@
 #include "Game.h"
-
-#include <fstream>
-#include "nlohmann\json.hpp"
-
 #include "SplashState.h"
-/*
-enum
+
+const int TICKS_PER_SECOND = 30;
+
+void Game::defaultSettings()
 {
-	NIL,
-	PRINT_MESSAGE,
-	SET_TEXT,
-	SENTINEL
-};
-
-int FireEvent(lua_State *L)
-{
-	int code = static_cast<int>(lua_tonumber(L, -1));
-	std::string msg = static_cast<std::string>(lua_tostring(L, -1));
-
-	bool found = false;
-
-	switch (code)
-	{
-	case PRINT_MESSAGE:
-		std::cout << msg << std::endl;
-		break;
-	case SET_TEXT:
-		al_emit_user_event()
-	}
-
-	lua_pushboolean(L, found);
-	return 1;
+	m_settings["width"] = 1280;
+	m_settings["height"] = 720;
 }
-/**/
-Game::Game() : m_events(ENGINE_SPEED)
+
+bool Game::loadSettings(std::string file)
 {
-	/*
-	lua_newtable(L);
-
-	lua_pushstring(L, "PRINT_MESSAGE");
-	lua_pushinteger(L, PRINT_MESSAGE);
-	lua_settable(L, -3);
-
-	lua_pushstring(L, "SET_TEXT");
-	lua_pushinteger(L, SET_TEXT);
-	lua_settable(L, -3);
-	/**/
-	int windowWidth = 1280; // Default Window Size
-	int windowHeight = 768;
-
-	nlohmann::json j;
-
-	std::ifstream in_file("settings.json");
+	std::ifstream in_file(file);
 
 	if (in_file.is_open())
 	{
-		in_file >> j;
-
-		if (j.find("width") != j.end() && j.find("width") != j.end())
-		{
-			windowWidth = j["width"];
-			windowHeight = j["height"];
-		}
+		in_file >> m_settings;
 
 		in_file.close();
 	}
-	m_draw.createWindow(windowWidth, windowHeight, "The Game");
+	else return false;
+
+	return true;
+}
+
+bool Game::saveSettings(std::string file)
+{
+	std::ofstream out_file(file);
+
+	if (out_file.is_open())
+	{
+		m_settings["width"] = m_draw.getWindowWidth();
+		m_settings["height"] = m_draw.getWindowHeight();
+
+		out_file << std::setw(4) << m_settings;
+
+		out_file.close();
+	}
+	else return false;
+
+	return true;
+}
+
+Game::Game() : m_events(TICKS_PER_SECOND)
+{
+	defaultSettings();
+	loadSettings("settings.json");
+
+	m_draw.createWindow(m_settings["width"], m_settings["height"], "The Game");
 	m_draw.getWindow().registerForEvents(m_events.getEventQueue());
 
 	m_draw.fonts.setPathToResources("res/fonts/");
@@ -74,19 +56,7 @@ Game::Game() : m_events(ENGINE_SPEED)
 
 Game::~Game()
 {
-	nlohmann::json j;
-
-	std::ofstream out_file("settings.json");
-
-	if (out_file.is_open())
-	{
-		j["width"] = m_draw.getWindowWidth();
-		j["height"] = m_draw.getWindowHeight();
-
-		out_file << std::setw(4) << j;
-
-		out_file.close();
-	}
+	saveSettings("settings.json");
 }
 
 void Game::run()
